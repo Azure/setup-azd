@@ -1,14 +1,54 @@
-# Project
+# GitHub Action for Azure Developer CLI
 
-> This repo has been populated by an initial template to help get you started. Please
-> make sure to update the content to build a great experience for community-building.
 
-As the maintainer of this project, please make a few updates:
+With Azure Developer CLI GitHub Action, you can automate your workflow by executing [Azure Developer CLI](https://github.com/hemarina/setup-azd) commands to manage resources inside of an Action.
 
-- Improving this README.MD file to provide a great experience
-- Updating SUPPORT.MD with content about this project's support experience
-- Understanding the security reporting process in SECURITY.MD
-- Remove this section from the README
+The action installs the Azure Developer CLI on a user defined Azure Developer CLI version. If the user does not specify a version, latest CLI version is used. 
+Read more about various Azure Developer CLI versions [here](https://github.com/Azure/azure-dev/releases).
+
+- `version` – **Optional** Example: 1.0.1, Default: set to latest azd cli version.
+
+The definition of this GitHub Action is in [action.yml](https://github.com/hemarina/setup-azd/blob/main/action.yml).
+
+## Sample workflow
+
+### Workflow to install a specific AZD CLI version
+```
+# File: .github/workflows/azure-dev.yml
+
+on: [push]
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install `azd`
+        uses: Azure/setup-azd@v1.0.0
+```
+
+## Azure CLI Action metadata file
+
+```
+# File: action.yml
+
+# Automate your GitHub workflows using Azure Developer CLI scripts.
+name: 'setup-azd'
+description: 'This action downloads and installs azd'
+author: 'Azure Developer CLI Team'
+inputs:
+  version:
+    required: false
+    description: 'The version of azd to install (default: latest)'
+    default: 'latest'
+runs:
+  using: 'node16'
+  main: 'dist/index.js'
+```
+
+# Getting Help for Azure Developer CLI Issues
+
+If you encounter an issue related to the Azure Developer CLI commands executed in your script, you can file an issue directly on the [Azure Developer CLI repository](https://github.com/Azure/azure-dev/issues/new/choose).
 
 ## Contributing
 
