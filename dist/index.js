@@ -78,6 +78,10 @@ function run() {
             // get install url
             const installArray = installUrlForOS(os, architecture, platformMap, arm64Map, extensionMap, exeMap);
             const url = `https://azure-dev.azureedge.net/azd/standalone/release/${version}/${installArray[0]}`;
+            core.notice(`The Azure Developer CLI collects usage data and sends that usage data to Microsoft in order to help us improve your experience.
+You can opt-out of telemetry by setting the AZURE_DEV_COLLECT_TELEMETRY environment variable to 'no' in the shell you use.
+
+Read more about Azure Developer CLI telemetry: https://github.com/Azure/azure-dev#data-collection`);
             core.info(`Installing azd from ${url}`);
             const file = yield toolCache.downloadTool(url);
             let extracted;
