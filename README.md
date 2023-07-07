@@ -1,6 +1,6 @@
 # GitHub Action for installing the Azure Developer CLI (`azd`)
 
-This GitHub Action allows you to automate provisioning resources and deploying your application on Azure with [Azure Developer CLI](https://github.com/azure/setup-azd) commands.
+This GitHub Action allows you to provision resources and deploy your application on Azure with [Azure Developer CLI](https://github.com/azure/setup-azd) commands.
 
 The action installs the Azure Developer CLI on a user-defined Azure Developer CLI version. If the user does not specify a version, latest CLI version is used. Read more about various Azure Developer CLI versions [here](https://github.com/Azure/azure-dev/releases).
 
