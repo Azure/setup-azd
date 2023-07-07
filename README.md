@@ -8,9 +8,7 @@ The action installs the Azure Developer CLI on a user-defined Azure Developer CL
 
 The definition of this GitHub Action is in [action.yml](https://github.com/azure/setup-azd/blob/main/action.yml).
 
-## Sample workflow
-
-### Workflow to install a specific AZD CLI version
+## Sample workflow install a specific `azd` `version
 
 ```yaml
 # File: .github/workflows/azure-dev.yml
@@ -43,7 +41,7 @@ runs:
   main: 'dist/index.js'
 ```
 
-# Getting Help for Azure Developer CLI Issues
+## Getting help for Azure Developer CLI issues
 
 If you encounter an issue related to the Azure Developer CLI commands executed in your script, you can file an issue directly on the [Azure Developer CLI repository](https://github.com/Azure/azure-dev/issues/new/choose).
 
