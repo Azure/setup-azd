@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Install azd
-        uses: Azure/setup-azd@v1.0.0
+        uses: Azure/setup-azd@v0.1.0
 ```
 
 ## Usage
