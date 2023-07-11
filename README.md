@@ -8,7 +8,7 @@ The action installs the Azure Developer CLI on a user-defined Azure Developer CL
 
 The definition of this GitHub Action is in [action.yml](https://github.com/azure/setup-azd/blob/main/action.yml).
 
-## Sample workflow install a specific `azd` version
+## Sample workflow install latest `azd` version
 
 ```yaml
 # File: .github/workflows/azure-dev.yml
@@ -24,6 +24,22 @@ jobs:
         uses: Azure/setup-azd@v0.1.0
 ```
 
+## Sample workflow install a specific `azd` version
+
+Select a specific `azd` version [here](https://github.com/Azure/azure-dev/releases) and use it in `version`.
+
+```yaml
+# File: .github/workflows/azure-dev.yml
+
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install azd
+        uses: Azure/setup-azd@v0.1.0
+        with:
+          version: '<version-number>'
 ## Usage
 See [action.yml](action.yml).
 
