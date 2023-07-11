@@ -40,6 +40,10 @@ jobs:
         uses: Azure/setup-azd@v0.1.0
         with:
           version: '<version-number>'
+```
+
+## Usage
+
 See [action.yml](action.yml).
 
 ```yaml
