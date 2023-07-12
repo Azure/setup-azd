@@ -4,7 +4,7 @@ pr:
 
   paths:
     include:
-      - eng/pipelines/build-notice.yml
+      - eng/pipelines/notice.yml
 
 trigger:
   branches:
