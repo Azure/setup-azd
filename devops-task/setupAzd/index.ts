@@ -1,1 +1,3 @@
-const { install } = require("../../dist/index.js");
+const { runMain } = require("./dist/index.js");
+
+runMain();
