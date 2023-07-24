@@ -9,20 +9,10 @@
     "author": "AzureDeveloperCLI",
     "version": {
         "Major": 0,
-        "Minor": 1,
+        "Minor": 2,
         "Patch": 0
     },
     "instanceNameFormat": "Installs azd: $(rootFolder)",
-    "inputs": [
-        {
-            "name": "samplestring",
-            "type": "string",
-            "label": "Sample String",
-            "defaultValue": "",
-            "required": true,
-            "helpMarkDown": "A sample string"
-        }
-    ],
     "execution": {
         "Node": {
             "target": "index.js"

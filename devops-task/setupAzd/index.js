@@ -1,2 +1,2 @@
 "use strict";
-const { install } = require("../../dist/index.js");
+const { install } = require("./dist/index.js");
