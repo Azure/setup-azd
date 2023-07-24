@@ -2,7 +2,7 @@
     "manifestVersion": 1,
     "id": "azd",
     "name": "Install azd",
-    "version": "0.0.0",
+    "version": "0.0.1",
     "publisher": "ms-azuretools",
     "targets": [
         {
@@ -44,18 +44,18 @@
     },
     "files": [
         {
-            "path": "setup-azd"
+            "path": "setupAzd"
         }
     ],
     "contributions": [
         {
-            "id": "setup-azd",
+            "id": "setupAzd",
             "type": "ms.vss-distributed-task.task",
             "targets": [
                 "ms.vss-distributed-task.tasks"
             ],
             "properties": {
-                "name": "setup-azd"
+                "name": "setupAzd"
             }
         }
     ]
