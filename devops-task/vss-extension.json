@@ -3,7 +3,7 @@
     "id": "azd",
     "name": "Install azd",
     "version": "0.0.0",
-    "publisher": "AzureDeveloperCLI",
+    "publisher": "ms-azuretools",
     "targets": [
         {
             "id": "Microsoft.VisualStudio.Services"
