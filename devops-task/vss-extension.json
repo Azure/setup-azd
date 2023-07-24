@@ -49,13 +49,13 @@
     ],
     "contributions": [
         {
-            "id": "setupAzd",
+            "id": "setup-azd",
             "type": "ms.vss-distributed-task.task",
             "targets": [
                 "ms.vss-distributed-task.tasks"
             ],
             "properties": {
-                "name": "setupAzd"
+                "name": "setup-azd"
             }
         }
     ]
