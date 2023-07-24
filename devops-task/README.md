@@ -1,0 +1,1 @@
+# Azure DevOps Task for installing the Azure Developer CLI (`azd`)
