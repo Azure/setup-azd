@@ -35,9 +35,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.runMain = void 0;
+exports.postIndex = exports.runMain = void 0;
 const task = __importStar(require("azure-pipelines-task-lib/task"));
-const cp = __importStar(require("child_process"));
 const path_1 = __importDefault(require("path"));
 const fs = __importStar(require("fs"));
 const download_1 = __importDefault(require("download"));
@@ -80,18 +79,16 @@ You can opt-out of telemetry by setting the AZURE_DEV_COLLECT_TELEMETRY environm
 Read more about Azure Developer CLI telemetry: https://github.com/Azure/azure-dev#data-collection`);
             console.log(`Installing azd from ${url}`);
             const buffer = yield (0, download_1.default)(url);
-            const pwd = process.cwd();
-            const files = yield (0, decompress_1.default)(buffer, pwd);
-            const extracted = files[0].path;
-            console.log(pwd);
+            const extractedTo = path_1.default.join(task.cwd(), 'azd-install');
+            yield (0, decompress_1.default)(buffer, extractedTo);
             if (os !== 'win32') {
-                fs.symlinkSync(path_1.default.join(pwd, installArray[1]), path_1.default.join('azd'));
+                fs.symlinkSync(path_1.default.join(extractedTo, installArray[1]), path_1.default.join(extractedTo, 'azd'));
             }
             else {
-                fs.symlinkSync(path_1.default.join(pwd, installArray[1]), path_1.default.join('azd.exe'));
+                fs.symlinkSync(path_1.default.join(extractedTo, installArray[1]), path_1.default.join(extractedTo, 'azd.exe'));
             }
-            console.log(`azd installed to ${pwd}/${extracted}`);
-            console.log(cp.execSync('azd version').toString());
+            task.prependPath(extractedTo);
+            console.log(`azd installed to ${extractedTo}`);
         }
         catch (err) {
             task.setResult(task.TaskResult.Failed, err.message);
@@ -109,3 +106,14 @@ function installUrlForOS(os, architecture, platformMap, archMap, extensionMap, e
     const installUrlForRename = `azd-${platformPart}-${archPart}${exeMap[os]}`;
     return [installUrl, installUrlForRename];
 }
+function postIndex() {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            task.exec('azd', 'version');
+        }
+        catch (err) {
+            task.setResult(task.TaskResult.Failed, err.message);
+        }
+    });
+}
+exports.postIndex = postIndex;

@@ -59,26 +59,22 @@ Read more about Azure Developer CLI telemetry: https://github.com/Azure/azure-de
 
         console.log(`Installing azd from ${url}`)
         const buffer = await download(url);
-        const pwd = process.cwd();
-        const files = await decompress(buffer, pwd);
-        const extracted = files[0].path;
-        console.log(pwd);
+        const extractedTo = path.join(task.cwd(), 'azd-install');
+        await decompress(buffer, extractedTo);
 
         if (os !== 'win32') {
             fs.symlinkSync(
-                path.join(pwd, installArray[1]),
-                path.join('azd')
+                path.join(extractedTo, installArray[1]),
+                path.join(extractedTo, 'azd')
             )
         } else {
             fs.symlinkSync(
-                path.join(pwd, installArray[1]),
-                path.join('azd.exe')
+                path.join(extractedTo, installArray[1]),
+                path.join(extractedTo, 'azd.exe')
             )
         }
-
-        console.log(`azd installed to ${pwd}/${extracted}`)
-        console.log(cp.execSync('azd version').toString())
-
+        task.prependPath(extractedTo)
+        console.log(`azd installed to ${extractedTo}`)
     } catch (err: any) {
         task.setResult(task.TaskResult.Failed, err.message);
     }
@@ -105,4 +101,13 @@ function installUrlForOS(
     const installUrlForRename = `azd-${platformPart}-${archPart}${exeMap[os]}`
 
     return [installUrl, installUrlForRename]
+}
+
+
+export async function postIndex(): Promise<void> {
+    try {
+        task.exec('azd', 'version')
+    } catch (err: any) {
+        task.setResult(task.TaskResult.Failed, err.message);
+    }
 }

@@ -22,8 +22,15 @@
         }
     ],
     "execution": {
-        "Node": {
-            "target": "index.js"
+        "Node10": {
+            "target": "index.js",
+            "argumentFormat": ""
+        }
+    },
+    "postjobexecution": {
+        "Node10": {
+            "target": "post-index.js",
+            "argumentFormat": ""
         }
     }
 }
