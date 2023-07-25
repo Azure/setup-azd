@@ -67,12 +67,12 @@ Read more about Azure Developer CLI telemetry: https://github.com/Azure/azure-de
         if (os !== 'win32') {
             fs.symlinkSync(
                 path.join(pwd, installArray[1]),
-                path.join(pwd, 'azd')
+                path.join('azd')
             )
         } else {
             fs.symlinkSync(
                 path.join(pwd, installArray[1]),
-                path.join(pwd, 'azd.exe')
+                path.join('azd.exe')
             )
         }
 

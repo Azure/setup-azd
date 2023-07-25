@@ -85,10 +85,10 @@ Read more about Azure Developer CLI telemetry: https://github.com/Azure/azure-de
             const extracted = files[0].path;
             console.log(pwd);
             if (os !== 'win32') {
-                fs.symlinkSync(path_1.default.join(pwd, installArray[1]), path_1.default.join(pwd, 'azd'));
+                fs.symlinkSync(path_1.default.join(pwd, installArray[1]), path_1.default.join('azd'));
             }
             else {
-                fs.symlinkSync(path_1.default.join(pwd, installArray[1]), path_1.default.join(pwd, 'azd.exe'));
+                fs.symlinkSync(path_1.default.join(pwd, installArray[1]), path_1.default.join('azd.exe'));
             }
             console.log(`azd installed to ${pwd}/${extracted}`);
             console.log(cp.execSync('azd version').toString());
