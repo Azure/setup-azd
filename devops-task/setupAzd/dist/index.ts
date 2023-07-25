@@ -62,19 +62,22 @@ Read more about Azure Developer CLI telemetry: https://github.com/Azure/azure-de
         const extractedTo = path.join(task.cwd(), 'azd-install');
         await decompress(buffer, extractedTo);
 
+        let binName
         if (os !== 'win32') {
-            fs.symlinkSync(
-                path.join(extractedTo, installArray[1]),
-                path.join(extractedTo, 'azd')
-            )
+            binName = 'azd';
         } else {
-            fs.symlinkSync(
-                path.join(extractedTo, installArray[1]),
-                path.join(extractedTo, 'azd.exe')
-            )
+            binName = 'azd.exe';
         }
+        const binPath = path.join(extractedTo, binName);
+
+        fs.symlinkSync(
+            path.join(extractedTo, installArray[1]),
+            binPath
+        )
         task.prependPath(extractedTo)
         console.log(`azd installed to ${extractedTo}`)
+        
+        task.exec(binPath, 'version')
     } catch (err: any) {
         task.setResult(task.TaskResult.Failed, err.message);
     }
@@ -101,13 +104,4 @@ function installUrlForOS(
     const installUrlForRename = `azd-${platformPart}-${archPart}${exeMap[os]}`
 
     return [installUrl, installUrlForRename]
-}
-
-
-export async function postIndex(): Promise<void> {
-    try {
-        task.exec('azd', 'version')
-    } catch (err: any) {
-        task.setResult(task.TaskResult.Failed, err.message);
-    }
 }

@@ -35,7 +35,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.postIndex = exports.runMain = void 0;
+exports.runMain = void 0;
 const task = __importStar(require("azure-pipelines-task-lib/task"));
 const path_1 = __importDefault(require("path"));
 const fs = __importStar(require("fs"));
@@ -81,14 +81,18 @@ Read more about Azure Developer CLI telemetry: https://github.com/Azure/azure-de
             const buffer = yield (0, download_1.default)(url);
             const extractedTo = path_1.default.join(task.cwd(), 'azd-install');
             yield (0, decompress_1.default)(buffer, extractedTo);
+            let binName;
             if (os !== 'win32') {
-                fs.symlinkSync(path_1.default.join(extractedTo, installArray[1]), path_1.default.join(extractedTo, 'azd'));
+                binName = 'azd';
             }
             else {
-                fs.symlinkSync(path_1.default.join(extractedTo, installArray[1]), path_1.default.join(extractedTo, 'azd.exe'));
+                binName = 'azd.exe';
             }
+            const binPath = path_1.default.join(extractedTo, binName);
+            fs.symlinkSync(path_1.default.join(extractedTo, installArray[1]), binPath);
             task.prependPath(extractedTo);
             console.log(`azd installed to ${extractedTo}`);
+            task.exec(binPath, 'version');
         }
         catch (err) {
             task.setResult(task.TaskResult.Failed, err.message);
@@ -106,14 +110,3 @@ function installUrlForOS(os, architecture, platformMap, archMap, extensionMap, e
     const installUrlForRename = `azd-${platformPart}-${archPart}${exeMap[os]}`;
     return [installUrl, installUrlForRename];
 }
-function postIndex() {
-    return __awaiter(this, void 0, void 0, function* () {
-        try {
-            task.exec('azd', 'version');
-        }
-        catch (err) {
-            task.setResult(task.TaskResult.Failed, err.message);
-        }
-    });
-}
-exports.postIndex = postIndex;

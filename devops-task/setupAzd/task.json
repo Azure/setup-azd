@@ -9,7 +9,7 @@
     "author": "AzureDeveloperCLI",
     "version": {
         "Major": 0,
-        "Minor": 4,
+        "Minor": 7,
         "Patch": 0
     },
     "instanceNameFormat": "Installs azd: $(rootFolder)",
@@ -24,12 +24,6 @@
     "execution": {
         "Node10": {
             "target": "index.js",
-            "argumentFormat": ""
-        }
-    },
-    "postjobexecution": {
-        "Node10": {
-            "target": "post-index.js",
             "argumentFormat": ""
         }
     }
