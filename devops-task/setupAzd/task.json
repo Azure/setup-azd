@@ -9,7 +9,7 @@
     "author": "AzureDeveloperCLI",
     "version": {
         "Major": 0,
-        "Minor": 10,
+        "Minor": 11,
         "Patch": 0
     },
     "instanceNameFormat": "Installs azd: $(rootFolder)",
