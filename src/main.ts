@@ -47,7 +47,7 @@ async function run(): Promise<void> {
       exeMap
     )
 
-    const url = `https://azure-dev.azureedge.net/azd/standalone/release/${version}/${installArray[0]}`
+    const url = `https://azdrelease.azureedge.net/azd/standalone/release/${version}/${installArray[0]}`
 
     core.notice(`The Azure Developer CLI collects usage data and sends that usage data to Microsoft in order to help us improve your experience.
 You can opt-out of telemetry by setting the AZURE_DEV_COLLECT_TELEMETRY environment variable to 'no' in the shell you use.
