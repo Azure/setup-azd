@@ -7,5 +7,5 @@ inputs:
     description: 'The version of azd to install (default: latest)'
     default: 'latest'
 runs:
-  using: 'node16'
+  using: 'node20'
   main: 'dist/index.js'
