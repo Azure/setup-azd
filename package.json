@@ -14,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ellismg/setup-azd.git"
+    "url": "git+https://github.com/azure/setup-azd.git"
   },
   "keywords": [
     "actions",
