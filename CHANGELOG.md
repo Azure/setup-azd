@@ -2,7 +2,7 @@
 
 ## 1.0.0 (2024-03-27)
 
-### Breaking Changes
+### Other Changes
 
 - [[87]](https://github.com/Azure/setup-azd/pull/87) Upgrade to NodeJS 20 due to NodeJS 16 deprecation.
 
