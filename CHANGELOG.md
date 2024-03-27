@@ -4,7 +4,7 @@
 
 ### Breaking Changes
 
-- [[87]](https://github.com/Azure/setup-azd/pull/87) Use NodeJS 20 due to NodeJS 16 deprecation.
+- [[87]](https://github.com/Azure/setup-azd/pull/87) Upgrade to NodeJS 20 due to NodeJS 16 deprecation.
 
 ## 0.1.0 (2023-07-12)
 
