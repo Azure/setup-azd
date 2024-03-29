@@ -1,6 +1,6 @@
 {
   "name": "setup-azd",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "private": true,
   "description": "TypeScript template action",
   "main": "lib/main.js",
