@@ -64,6 +64,7 @@ Read more about Azure Developer CLI telemetry: https://github.com/Azure/azure-de
       extracted = await toolCache.extractTar(file)
     }
 
+    // This keeps symlinkSync instead of copySync as setup-azd Azure DevOps for efficiency, storage space, etc.
     if (os !== 'win32') {
       fs.symlinkSync(
         path.join(extracted, installArray[1]),
