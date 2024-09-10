@@ -1,6 +1,6 @@
 {
   "name": "setup-azd",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "private": true,
   "description": "TypeScript template action",
   "main": "lib/main.js",
@@ -29,8 +29,8 @@
     "@actions/tool-cache": "^2.0.1"
   },
   "devDependencies": {
-    "@types/node": "^20.11.30",
-    "@typescript-eslint/parser": "^7.4.0",
+    "@types/node": "^22.5.4",
+    "@typescript-eslint/parser": "^7.18.0",
     "@vercel/ncc": "^0.38.1",
     "eslint": "^8.57.0",
     "eslint-plugin-github": "^4.10.2",
@@ -40,7 +40,7 @@
     "js-yaml": "^4.1.0",
     "prettier": "^3.2.5",
     "ts-jest": "^29.1.1",
-    "typescript": "^5.4.3",
-    "typescript-eslint": "^7.4.0"
+    "typescript": "^5.5.4",
+    "typescript-eslint": "^8.4.0"
   }
 }
