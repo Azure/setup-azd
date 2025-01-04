@@ -49,7 +49,9 @@ async function run(): Promise<void> {
 
     const url = `https://azd-release-gfgac2cmf7b8cuay.b02.azurefd.net/azd/standalone/release/${version}/${installArray[0]}`
 
-    core.warning(`azure/setup-azd@v1.0.0 is deprecated. Please use azure/setup-azd@v2.0.0 instead. azure/setup-azd@v1.0.0 downloads from a CDN endpoint which is retiring. To fix download issues use azure/setup-azd@v2.0.0.`)
+    core.warning(
+      `azure/setup-azd@v1.0.0 is deprecated. Please use azure/setup-azd@v2.0.0 instead. azure/setup-azd@v1.0.0 downloads from a CDN endpoint which is retiring. To fix download issues use azure/setup-azd@v2.0.0.`
+    )
 
     core.notice(`The Azure Developer CLI collects usage data and sends that usage data to Microsoft in order to help us improve your experience.
 You can opt-out of telemetry by setting the AZURE_DEV_COLLECT_TELEMETRY environment variable to 'no' in the shell you use.
