@@ -12,19 +12,18 @@ async function run(): Promise<void> {
     // get os
     const os = process.platform
 
-    let windowsInstallScript = `powershell -ex AllSigned -c "Invoke-RestMethod 'https://aka.ms/install-azd.ps1' | Invoke-Expression"`;
-    let linuxOrMacOSInstallScript = `curl -fsSL https://aka.ms/install-azd.sh | bash`;
-    if (version){
-      windowsInstallScript = `powershell -ex AllSigned -c "Invoke-RestMethod 'https://aka.ms/install-azd.ps1' -OutFile 'install-azd.ps1'; ./install-azd.ps1 -Version '${version}'"`;
-      linuxOrMacOSInstallScript = `curl -fsSL https://aka.ms/install-azd.sh | bash -s -- --version ${version}`;
-    }
-    
-    if (os === 'win32') {
-      cp.execSync(windowsInstallScript);
-    } else  {
-      cp.execSync(linuxOrMacOSInstallScript);
+    let windowsInstallScript = `powershell -ex AllSigned -c "Invoke-RestMethod 'https://aka.ms/install-azd.ps1' | Invoke-Expression"`
+    let linuxOrMacOSInstallScript = `curl -fsSL https://aka.ms/install-azd.sh | bash`
+    if (version) {
+      windowsInstallScript = `powershell -ex AllSigned -c "Invoke-RestMethod 'https://aka.ms/install-azd.ps1' -OutFile 'install-azd.ps1'; ./install-azd.ps1 -Version '${version}'"`
+      linuxOrMacOSInstallScript = `curl -fsSL https://aka.ms/install-azd.sh | bash -s -- --version ${version}`
     }
 
+    if (os === 'win32') {
+      cp.execSync(windowsInstallScript)
+    } else {
+      cp.execSync(linuxOrMacOSInstallScript)
+    }
 
     core.notice(`The Azure Developer CLI collects usage data and sends that usage data to Microsoft in order to help us improve your experience.
 You can opt-out of telemetry by setting the AZURE_DEV_COLLECT_TELEMETRY environment variable to 'no' in the shell you use.
