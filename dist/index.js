@@ -65,6 +65,7 @@ function run() {
                 linuxOrMacOSInstallScript = `curl -fsSL https://aka.ms/install-azd.sh | bash -s -- --version ${version}`;
             }
             if (os === 'win32') {
+                cp.execSync(`Get-ExecutionPolicy`);
                 cp.execSync(windowsInstallScript);
             }
             else {

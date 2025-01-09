@@ -20,6 +20,7 @@ async function run(): Promise<void> {
     }
 
     if (os === 'win32') {
+      cp.execSync(`Get-ExecutionPolicy`);
       cp.execSync(windowsInstallScript)
     } else {
       cp.execSync(linuxOrMacOSInstallScript)
