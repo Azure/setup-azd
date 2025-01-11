@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Install azd
-        uses: Azure/setup-azd@v2.0.0
+        uses: Azure/setup-azd@v2
 ```
 
 ## Sample workflow install a specific `azd` version
@@ -37,7 +37,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Install azd
-        uses: Azure/setup-azd@v2.0.0
+        uses: Azure/setup-azd@v2
         with:
           version: '<version-number>'
 ```
