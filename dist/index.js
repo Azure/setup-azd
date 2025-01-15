@@ -66,7 +66,6 @@ function run() {
             }
             if (os === 'win32') {
                 cp.execSync(windowsInstallScript);
-                cp.execSync(`powershell -Command \\"[System.Environment]::GetEnvironmentVariables([System.EnvironmentVariableTarget]::User)\\"`);
             }
             else {
                 cp.execSync(linuxOrMacOSInstallScript);
@@ -77,6 +76,7 @@ You can opt-out of telemetry by setting the AZURE_DEV_COLLECT_TELEMETRY environm
 Read more about Azure Developer CLI telemetry: https://github.com/Azure/azure-dev#data-collection`);
             core.info(`Installing azd version ${version} on ${os}`);
             // Run `azd version` so we get the version that was installed written to the log.
+            core.info(`$env:PATH`);
             core.info(cp.execSync('azd version').toString());
         }
         catch (error) {

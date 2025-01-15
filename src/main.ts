@@ -21,7 +21,6 @@ async function run(): Promise<void> {
 
     if (os === 'win32') {
       cp.execSync(windowsInstallScript)
-      cp.execSync(`powershell -Command \\"[System.Environment]::GetEnvironmentVariables([System.EnvironmentVariableTarget]::User)\\"`)
     } else {
       cp.execSync(linuxOrMacOSInstallScript)
     }
@@ -34,6 +33,7 @@ Read more about Azure Developer CLI telemetry: https://github.com/Azure/azure-de
     core.info(`Installing azd version ${version} on ${os}`)
 
     // Run `azd version` so we get the version that was installed written to the log.
+    core.info(`$env:PATH`)
     core.info(cp.execSync('azd version').toString())
   } catch (error) {
     if (error instanceof Error) {
