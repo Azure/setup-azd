@@ -61,7 +61,7 @@ function run() {
             let windowsInstallScript = `powershell -ex AllSigned -c "Invoke-RestMethod 'https://aka.ms/install-azd.ps1' | Invoke-Expression"`;
             let linuxOrMacOSInstallScript = `curl -fsSL https://aka.ms/install-azd.sh | bash`;
             if (version) {
-                windowsInstallScript = `powershell -ex AllSigned -c "Invoke-RestMethod 'https://aka.ms/install-azd.ps1' -OutFile 'install-azd.ps1'; powershell -ExecutionPolicy Bypass -File ./install-azd.ps1 -Version '${version}'"; powershell -Command \\"[System.Environment]::SetEnvironmentVariable('PATH', '$($env:PATH);$($env:LocalAppData)\\Programs\\Azure Dev CLI', 'User')\\"`;
+                windowsInstallScript = `powershell -ex AllSigned -c "Invoke-RestMethod 'https://aka.ms/install-azd.ps1' -OutFile 'install-azd.ps1'; powershell -ExecutionPolicy Bypass -File ./install-azd.ps1 -Version '${version}'"; powershell -Command \\"[System.Environment]::SetEnvironmentVariable('PATH', '$($env:PATH);$($env:LocalAppData)\\Programs\\Azure Dev CLI', 'Machine')\\"`;
                 linuxOrMacOSInstallScript = `sudo curl -fsSL https://aka.ms/install-azd.sh | bash -s -- --version ${version}`;
             }
             if (os === 'win32') {
@@ -74,9 +74,10 @@ function run() {
 You can opt-out of telemetry by setting the AZURE_DEV_COLLECT_TELEMETRY environment variable to 'no' in the shell you use.
 
 Read more about Azure Developer CLI telemetry: https://github.com/Azure/azure-dev#data-collection`);
-            core.info(`Installing azd version ${version} on ${os}`);
+            core.info(`Installing azd version ${version} on ${os}.`);
             // Run `azd version` so we get the version that was installed written to the log.
             core.info(cp.execSync('powershell -Command \\"$env:PATH\\"').toString());
+            core.info(`Checking azd version`);
             core.info(cp.execSync('azd version').toString());
         }
         catch (error) {
