@@ -19,17 +19,13 @@ async function run(): Promise<void> {
       linuxOrMacOSInstallScript = `sudo curl -fsSL https://aka.ms/install-azd.sh | bash -s -- --version ${version}`
     }
 
+    core.info(`Installing azd version ${version} on ${os}.`)
+    
     if (os === 'win32') {
       cp.execSync(windowsInstallScript)
 
       // Add azd to PATH
-      const addToPathScript = `
-        $oldPath = [System.Environment]::GetEnvironmentVariable('Path', [System.EnvironmentVariableTarget]::Machine)
-        $newPath = "$oldPath;$($env:LocalAppData)\\Programs\\Azure Dev CLI"
-        [System.Environment]::SetEnvironmentVariable('Path', $newPath, [System.EnvironmentVariableTarget]::Machine)
-      `
-      
-      core.info(cp.execSync(`powershell -Command "${addToPathScript}"`).toString())
+      cp.execSync(`echo "$HOME/Programs/Azure Dev CLI" >> "$GITHUB_PATH"`)
     } else {
       cp.execSync(linuxOrMacOSInstallScript)
     }
@@ -39,10 +35,8 @@ You can opt-out of telemetry by setting the AZURE_DEV_COLLECT_TELEMETRY environm
 
 Read more about Azure Developer CLI telemetry: https://github.com/Azure/azure-dev#data-collection`)
 
-    core.info(`Installing azd version ${version} on ${os}.`)
-
     // Run `azd version` so we get the version that was installed written to the log.
-    core.info(cp.execSync('powershell -Command \\"$env:PATH\\"').toString())
+    cp.execSync(`echo "$PATH"`)
     core.info(`Checking azd version.`)
     core.info(cp.execSync('azd version').toString())
   } catch (error) {
