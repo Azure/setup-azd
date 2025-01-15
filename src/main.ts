@@ -28,7 +28,8 @@ async function run(): Promise<void> {
         $newPath = "$oldPath;$($env:LocalAppData)\\Programs\\Azure Dev CLI"
         [System.Environment]::SetEnvironmentVariable('Path', $newPath, [System.EnvironmentVariableTarget]::Machine)
       `
-      cp.execSync(`powershell -Command "${addToPathScript}"`)
+      
+      core.info(cp.execSync(`powershell -Command "${addToPathScript}"`).toString())
     } else {
       cp.execSync(linuxOrMacOSInstallScript)
     }
