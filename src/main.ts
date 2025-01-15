@@ -2,10 +2,11 @@ import * as fs from 'fs'
 import * as cp from 'child_process'
 import * as core from '@actions/core'
 import * as toolCache from '@actions/tool-cache'
-import path from 'path'
+import * as path from 'path'
 
 async function run(): Promise<void> {
   try {
+    const localAppDataPath = process.env.LocalAppData;
     // get version number from input
     const version = core.getInput('version')
 
@@ -23,10 +24,7 @@ async function run(): Promise<void> {
 
     if (os === 'win32') {
       cp.execSync(windowsInstallScript)
-
       // Add azd to PATH
-      const localAppDataPath = process.env.LocalAppData;
-      core.info(`LocalAppData: ${localAppDataPath}`);
       if (localAppDataPath) {
         const azdPath = path.join(localAppDataPath, 'Programs', 'Azure Dev CLI');
         fs.appendFileSync(process.env.GITHUB_PATH || '', `${azdPath}${path.delimiter}`);
@@ -44,9 +42,7 @@ Read more about Azure Developer CLI telemetry: https://github.com/Azure/azure-de
 
     // Run `azd version` so we get the version that was installed written to the log.
     core.info(`Checking azd version.`)
-
     if (os === 'win32') {
-      const localAppDataPath = process.env.LocalAppData;
       if (localAppDataPath) {
         const azdExePath = path.join(localAppDataPath, 'Programs', 'Azure Dev CLI', 'azd.exe');
         core.info(cp.execSync(`"${azdExePath}" version`).toString())

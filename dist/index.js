@@ -48,17 +48,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const fs = __importStar(__nccwpck_require__(9896));
 const cp = __importStar(__nccwpck_require__(5317));
 const core = __importStar(__nccwpck_require__(7484));
-const path_1 = __importDefault(__nccwpck_require__(6928));
+const path = __importStar(__nccwpck_require__(6928));
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
+            const localAppDataPath = process.env.LocalAppData;
             // get version number from input
             const version = core.getInput('version');
             // get os
@@ -73,11 +71,9 @@ function run() {
             if (os === 'win32') {
                 cp.execSync(windowsInstallScript);
                 // Add azd to PATH
-                const localAppDataPath = process.env.LocalAppData;
-                core.info(`LocalAppData: ${localAppDataPath}`);
                 if (localAppDataPath) {
-                    const azdPath = path_1.default.join(localAppDataPath, 'Programs', 'Azure Dev CLI');
-                    fs.appendFileSync(process.env.GITHUB_PATH || '', `${azdPath}${path_1.default.delimiter}`);
+                    const azdPath = path.join(localAppDataPath, 'Programs', 'Azure Dev CLI');
+                    fs.appendFileSync(process.env.GITHUB_PATH || '', `${azdPath}${path.delimiter}`);
                 }
                 else {
                     core.setFailed('LocalAppData environment variable is not defined.');
@@ -93,9 +89,8 @@ Read more about Azure Developer CLI telemetry: https://github.com/Azure/azure-de
             // Run `azd version` so we get the version that was installed written to the log.
             core.info(`Checking azd version.`);
             if (os === 'win32') {
-                const localAppDataPath = process.env.LocalAppData;
                 if (localAppDataPath) {
-                    const azdExePath = path_1.default.join(localAppDataPath, 'Programs', 'Azure Dev CLI', 'azd.exe');
+                    const azdExePath = path.join(localAppDataPath, 'Programs', 'Azure Dev CLI', 'azd.exe');
                     core.info(cp.execSync(`"${azdExePath}" version`).toString());
                 }
                 else {
