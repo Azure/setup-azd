@@ -25,8 +25,13 @@ async function run(): Promise<void> {
       cp.execSync(windowsInstallScript)
 
       // Add azd to PATH
-      cp.execSync(`echo "$HOME/Programs/Azure Dev CLI" >> "$GITHUB_PATH"`)
-    } else {
+      const localAppDataPath = process.env.LocalAppData;
+      if (localAppDataPath) {
+        const azdPath = path.join(localAppDataPath, 'Programs', 'Azure Dev CLI');
+        fs.appendFileSync(process.env.GITHUB_PATH || '', `${azdPath}${path.delimiter}`);
+      } else {
+        core.setFailed('LocalAppData environment variable is not defined.');
+      }} else {
       cp.execSync(linuxOrMacOSInstallScript)
     }
 
@@ -37,8 +42,8 @@ Read more about Azure Developer CLI telemetry: https://github.com/Azure/azure-de
 
     // Run `azd version` so we get the version that was installed written to the log.
     core.info("env:path"+cp.execSync('powershell -Command \\"$env:PATH\\"').toString())
-    core.info("github path"+cp.execSync('powershell -Command \\"$GITHUB_PATH\\"').toString())
-    core.info("home" + cp.execSync('powershell -Command \\"$HOME\\"').toString())
+    core.info("github path"+cp.execSync('powershell -Command \\"$env:GITHUB_PATH\\"').toString())
+    core.info("home" + cp.execSync('powershell -Command \\"$env:HOME\\"').toString())
     core.info(`Checking azd version.`)
     core.info(cp.execSync('azd version').toString())
   } catch (error) {

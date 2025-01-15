@@ -48,9 +48,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
+const fs = __importStar(__nccwpck_require__(9896));
 const cp = __importStar(__nccwpck_require__(5317));
 const core = __importStar(__nccwpck_require__(7484));
+const path_1 = __importDefault(__nccwpck_require__(6928));
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -68,7 +73,14 @@ function run() {
             if (os === 'win32') {
                 cp.execSync(windowsInstallScript);
                 // Add azd to PATH
-                cp.execSync(`echo "$HOME/Programs/Azure Dev CLI" >> "$GITHUB_PATH"`);
+                const localAppDataPath = process.env.LocalAppData;
+                if (localAppDataPath) {
+                    const azdPath = path_1.default.join(localAppDataPath, 'Programs', 'Azure Dev CLI');
+                    fs.appendFileSync(process.env.GITHUB_PATH || '', `${azdPath}${path_1.default.delimiter}`);
+                }
+                else {
+                    core.setFailed('LocalAppData environment variable is not defined.');
+                }
             }
             else {
                 cp.execSync(linuxOrMacOSInstallScript);
@@ -79,8 +91,8 @@ You can opt-out of telemetry by setting the AZURE_DEV_COLLECT_TELEMETRY environm
 Read more about Azure Developer CLI telemetry: https://github.com/Azure/azure-dev#data-collection`);
             // Run `azd version` so we get the version that was installed written to the log.
             core.info("env:path" + cp.execSync('powershell -Command \\"$env:PATH\\"').toString());
-            core.info("github path" + cp.execSync('powershell -Command \\"$GITHUB_PATH\\"').toString());
-            core.info("home" + cp.execSync('powershell -Command \\"$HOME\\"').toString());
+            core.info("github path" + cp.execSync('powershell -Command \\"$env:GITHUB_PATH\\"').toString());
+            core.info("home" + cp.execSync('powershell -Command \\"$env:HOME\\"').toString());
             core.info(`Checking azd version.`);
             core.info(cp.execSync('azd version').toString());
         }
