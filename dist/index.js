@@ -60,7 +60,7 @@ function run() {
             const os = process.platform;
             let windowsInstallScript = `powershell -ex AllSigned -c "Invoke-RestMethod 'https://aka.ms/install-azd.ps1' | Invoke-Expression"`;
             let linuxOrMacOSInstallScript = `curl -fsSL https://aka.ms/install-azd.sh | bash`;
-            if (version) {
+            if (version !== 'latest') {
                 windowsInstallScript = `powershell -ex AllSigned -c "Invoke-RestMethod 'https://aka.ms/install-azd.ps1' -OutFile 'install-azd.ps1'; powershell -ExecutionPolicy Bypass -File ./install-azd.ps1 -Version '${version}'"`;
                 linuxOrMacOSInstallScript = `sudo curl -fsSL https://aka.ms/install-azd.sh | bash -s -- --version ${version}`;
             }
@@ -78,8 +78,8 @@ You can opt-out of telemetry by setting the AZURE_DEV_COLLECT_TELEMETRY environm
 
 Read more about Azure Developer CLI telemetry: https://github.com/Azure/azure-dev#data-collection`);
             // Run `azd version` so we get the version that was installed written to the log.
-            core.info(cp.execSync('echo $env:PATH').toString());
-            core.info(cp.execSync('echo $GITHUB_PATH').toString());
+            core.info(cp.execSync('$env:PATH').toString());
+            core.info(cp.execSync('$GITHUB_PATH').toString());
             core.info(`Checking azd version.`);
             core.info(cp.execSync('azd version').toString());
         }
