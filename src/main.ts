@@ -23,7 +23,12 @@ async function run(): Promise<void> {
       cp.execSync(windowsInstallScript)
 
       // Add azd to PATH
-      cp.execSync('setx PATH "%PATH%;$($env:LocalAppData)\\Programs\\Azure Dev CLI" /M')
+      const addToPathScript = `
+        $oldPath = [System.Environment]::GetEnvironmentVariable('Path', [System.EnvironmentVariableTarget]::Machine)
+        $newPath = "$oldPath;$($env:LocalAppData)\\Programs\\Azure Dev CLI"
+        [System.Environment]::SetEnvironmentVariable('Path', $newPath, [System.EnvironmentVariableTarget]::Machine)
+      `
+      cp.execSync(`powershell -Command "${addToPathScript}"`)
     } else {
       cp.execSync(linuxOrMacOSInstallScript)
     }
@@ -37,7 +42,7 @@ Read more about Azure Developer CLI telemetry: https://github.com/Azure/azure-de
 
     // Run `azd version` so we get the version that was installed written to the log.
     core.info(cp.execSync('powershell -Command \\"$env:PATH\\"').toString())
-    core.info(`Checking azd version`)
+    core.info(`Checking azd version.`)
     core.info(cp.execSync('azd version').toString())
   } catch (error) {
     if (error instanceof Error) {
