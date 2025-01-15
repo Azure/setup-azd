@@ -15,7 +15,7 @@ async function run(): Promise<void> {
     let windowsInstallScript = `powershell -ex AllSigned -c "Invoke-RestMethod 'https://aka.ms/install-azd.ps1' | Invoke-Expression"`
     let linuxOrMacOSInstallScript = `curl -fsSL https://aka.ms/install-azd.sh | bash`
     if (version) {
-      windowsInstallScript = `powershell -ex AllSigned -c "Invoke-RestMethod 'https://aka.ms/install-azd.ps1' -OutFile 'install-azd.ps1'; sudo ./install-azd.ps1 -Version '${version}'"`
+      windowsInstallScript = `powershell -ex AllSigned -c "Invoke-RestMethod 'https://aka.ms/install-azd.ps1' -OutFile 'install-azd.ps1'; ./install-azd.ps1 -Version '${version}'"`
       linuxOrMacOSInstallScript = `curl -fsSL https://aka.ms/install-azd.sh | bash -s -- --version ${version}`
     }
 
