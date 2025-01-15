@@ -78,8 +78,8 @@ You can opt-out of telemetry by setting the AZURE_DEV_COLLECT_TELEMETRY environm
 
 Read more about Azure Developer CLI telemetry: https://github.com/Azure/azure-dev#data-collection`);
             // Run `azd version` so we get the version that was installed written to the log.
-            core.info(cp.execSync('$env:PATH').toString());
-            core.info(cp.execSync('$GITHUB_PATH').toString());
+            core.info(cp.execSync('powershell -Command \\"$env:PATH\\"').toString());
+            core.info(cp.execSync('powershell -Command \\"$GITHUB_PATH\\"').toString());
             core.info(`Checking azd version.`);
             core.info(cp.execSync('azd version').toString());
         }
