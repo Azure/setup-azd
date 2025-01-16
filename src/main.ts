@@ -49,7 +49,8 @@ Read more about Azure Developer CLI telemetry: https://github.com/Azure/azure-de
         core.setFailed('LocalAppData environment variable is not defined.');
       }
     } else {
-      core.info("\nChecking azd version:"+cp.execSync('azd version').toString())
+      core.info(`
+        Checking azd version:`+cp.execSync('azd version').toString())
     }
   } catch (error) {
     if (error instanceof Error) {

@@ -97,7 +97,8 @@ Read more about Azure Developer CLI telemetry: https://github.com/Azure/azure-de
                 }
             }
             else {
-                core.info("\nChecking azd version:" + cp.execSync('azd version').toString());
+                core.info(`
+        Checking azd version:` + cp.execSync('azd version').toString());
             }
         }
         catch (error) {
