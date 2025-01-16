@@ -67,8 +67,7 @@ function run() {
                 windowsInstallScript = `powershell -ex AllSigned -c "Invoke-RestMethod 'https://aka.ms/install-azd.ps1' -OutFile 'install-azd.ps1'; powershell -ExecutionPolicy Bypass -File ./install-azd.ps1 -Version '${version}'"`;
                 linuxOrMacOSInstallScript = `sudo curl -fsSL https://aka.ms/install-azd.sh | bash -s -- --version ${version}`;
             }
-            core.info(`Installing azd version ${version} on ${os}.
-      `);
+            core.info(`Installing azd version ${version} on ${os}.\n`);
             if (os === 'win32') {
                 cp.execSync(windowsInstallScript);
                 // Add azd to PATH
@@ -90,14 +89,14 @@ Read more about Azure Developer CLI telemetry: https://github.com/Azure/azure-de
             if (os === 'win32') {
                 if (localAppDataPath) {
                     const azdExePath = path.join(localAppDataPath, 'Programs', 'Azure Dev CLI', 'azd.exe');
-                    core.info("\nChecking azd version:" + cp.execSync(`"${azdExePath}" version`).toString());
+                    core.info(`\nChecking azd version: ` + cp.execSync(`"${azdExePath}" version`).toString());
                 }
                 else {
                     core.setFailed('LocalAppData environment variable is not defined.');
                 }
             }
             else {
-                core.info("\nChecking azd version:" + cp.execSync('azd version').toString());
+                core.info(`\nChecking azd version: ` + cp.execSync('azd version').toString());
             }
         }
         catch (error) {
