@@ -1,7 +1,6 @@
 import * as fs from 'fs'
 import * as cp from 'child_process'
 import * as core from '@actions/core'
-import * as toolCache from '@actions/tool-cache'
 import * as path from 'path'
 
 async function run(): Promise<void> {
