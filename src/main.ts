@@ -38,7 +38,6 @@ async function run(): Promise<void> {
 
     core.notice(`The Azure Developer CLI collects usage data and sends that usage data to Microsoft in order to help us improve your experience.
 You can opt-out of telemetry by setting the AZURE_DEV_COLLECT_TELEMETRY environment variable to 'no' in the shell you use.
-
 Read more about Azure Developer CLI telemetry: https://github.com/Azure/azure-dev#data-collection`)
 
     // Run `azd version` so we get the version that was installed written to the log.
