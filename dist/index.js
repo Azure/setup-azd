@@ -65,7 +65,7 @@ function run() {
             let linuxOrMacOSInstallScript = `curl -fsSL https://aka.ms/install-azd.sh | sudo bash`;
             if (version !== 'latest') {
                 windowsInstallScript = `powershell -ex AllSigned -c "Invoke-RestMethod 'https://aka.ms/install-azd.ps1' -OutFile 'install-azd.ps1'; powershell -ExecutionPolicy Bypass -File ./install-azd.ps1 -Version '${version}'"`;
-                linuxOrMacOSInstallScript = `sudo curl -fsSL https://aka.ms/install-azd.sh | sudo bash -s -- --version ${version}`;
+                linuxOrMacOSInstallScript = `curl -fsSL https://aka.ms/install-azd.sh | sudo bash -s -- --version ${version}`;
             }
             core.info(`Installing azd version ${version} on ${os}.\n`);
             if (os === 'win32') {
@@ -86,18 +86,17 @@ function run() {
 You can opt-out of telemetry by setting the AZURE_DEV_COLLECT_TELEMETRY environment variable to 'no' in the shell you use.
 Read more about Azure Developer CLI telemetry: https://github.com/Azure/azure-dev#data-collection`);
             // Run `azd version` so we get the version that was installed written to the log.
+            let azdVersion = 'azd version';
             if (os === 'win32') {
                 if (localAppDataPath) {
                     const azdExePath = path.join(localAppDataPath, 'Programs', 'Azure Dev CLI', 'azd.exe');
-                    core.info(`\nChecking azd version: ${cp.execSync(`"${azdExePath}" version`).toString()}`);
+                    azdVersion = `"${azdExePath}" version`;
                 }
                 else {
                     core.setFailed('LocalAppData environment variable is not defined.');
                 }
             }
-            else {
-                core.info(`\nChecking azd version: ${cp.execSync('azd version').toString()}`);
-            }
+            core.info(`\nChecking azd version: ${cp.execSync(azdVersion).toString()}`);
         }
         catch (error) {
             if (error instanceof Error) {
