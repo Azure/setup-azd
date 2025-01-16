@@ -38,19 +38,19 @@ async function run(): Promise<void> {
 
     core.notice(`The Azure Developer CLI collects usage data and sends that usage data to Microsoft in order to help us improve your experience.
 You can opt-out of telemetry by setting the AZURE_DEV_COLLECT_TELEMETRY environment variable to 'no' in the shell you use.
+
 Read more about Azure Developer CLI telemetry: https://github.com/Azure/azure-dev#data-collection`)
 
     // Run `azd version` so we get the version that was installed written to the log.
     if (os === 'win32') {
       if (localAppDataPath) {
         const azdExePath = path.join(localAppDataPath, 'Programs', 'Azure Dev CLI', 'azd.exe');
-        core.info(cp.execSync(`"${azdExePath}" version`).toString())
+        core.info("\nChecking azd version:"+cp.execSync(`"${azdExePath}" version`).toString())
       } else {
         core.setFailed('LocalAppData environment variable is not defined.');
       }
     } else {
-      core.info(`
-        Checking azd version:`+cp.execSync('azd version').toString())
+      core.info("\nChecking azd version:"+cp.execSync('azd version').toString())
     }
   } catch (error) {
     if (error instanceof Error) {
