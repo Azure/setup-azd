@@ -32,6 +32,7 @@ async function run(): Promise<void> {
         )
       } else {
         core.setFailed('LocalAppData environment variable is not defined.')
+        return
       }
     } else {
       cp.execSync(linuxOrMacOSInstallScript)
@@ -54,6 +55,7 @@ Read more about Azure Developer CLI telemetry: https://github.com/Azure/azure-de
         azdVersion = `"${azdExePath}" version`
       } else {
         core.setFailed('LocalAppData environment variable is not defined.')
+        return
       }
     }
 
