@@ -20,7 +20,8 @@ async function run(): Promise<void> {
       linuxOrMacOSInstallScript = `sudo curl -fsSL https://aka.ms/install-azd.sh | bash -s -- --version ${version}`
     }
 
-    core.info(`Installing azd version ${version} on ${os}.\n`)
+    core.info(`Installing azd version ${version} on ${os}.
+      `)
 
     if (os === 'win32') {
       cp.execSync(windowsInstallScript)
@@ -48,7 +49,7 @@ Read more about Azure Developer CLI telemetry: https://github.com/Azure/azure-de
         core.setFailed('LocalAppData environment variable is not defined.');
       }
     } else {
-      core.info(`\nChecking azd version:`+cp.execSync('azd version').toString())
+      core.info("\nChecking azd version:"+cp.execSync('azd version').toString())
     }
   } catch (error) {
     if (error instanceof Error) {
