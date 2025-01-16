@@ -5,7 +5,7 @@ import * as path from 'path'
 
 async function run(): Promise<void> {
   try {
-    const localAppDataPath = process.env.LocalAppData;
+    const localAppDataPath = process.env.LocalAppData
     // get version number from input
     const version = core.getInput('version')
 
@@ -25,10 +25,13 @@ async function run(): Promise<void> {
       cp.execSync(windowsInstallScript)
       // Add azd to PATH
       if (localAppDataPath) {
-        const azdPath = path.join(localAppDataPath, 'Programs', 'Azure Dev CLI');
-        fs.appendFileSync(process.env.GITHUB_PATH || '', `${azdPath}${path.delimiter}`);
+        const azdPath = path.join(localAppDataPath, 'Programs', 'Azure Dev CLI')
+        fs.appendFileSync(
+          process.env.GITHUB_PATH || '',
+          `${azdPath}${path.delimiter}`
+        )
       } else {
-        core.setFailed('LocalAppData environment variable is not defined.');
+        core.setFailed('LocalAppData environment variable is not defined.')
       }
     } else {
       cp.execSync(linuxOrMacOSInstallScript)
@@ -41,13 +44,22 @@ Read more about Azure Developer CLI telemetry: https://github.com/Azure/azure-de
     // Run `azd version` so we get the version that was installed written to the log.
     if (os === 'win32') {
       if (localAppDataPath) {
-        const azdExePath = path.join(localAppDataPath, 'Programs', 'Azure Dev CLI', 'azd.exe');
-        core.info(`\nChecking azd version: `+cp.execSync(`"${azdExePath}" version`).toString())
+        const azdExePath = path.join(
+          localAppDataPath,
+          'Programs',
+          'Azure Dev CLI',
+          'azd.exe'
+        )
+        core.info(
+          `\nChecking azd version: ${cp.execSync(`"${azdExePath}" version`).toString()}`
+        )
       } else {
-        core.setFailed('LocalAppData environment variable is not defined.');
+        core.setFailed('LocalAppData environment variable is not defined.')
       }
     } else {
-      core.info(`\nChecking azd version: `+cp.execSync('azd version').toString())
+      core.info(
+        `\nChecking azd version: ${cp.execSync('azd version').toString()}`
+      )
     }
   } catch (error) {
     if (error instanceof Error) {

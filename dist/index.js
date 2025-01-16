@@ -89,14 +89,14 @@ Read more about Azure Developer CLI telemetry: https://github.com/Azure/azure-de
             if (os === 'win32') {
                 if (localAppDataPath) {
                     const azdExePath = path.join(localAppDataPath, 'Programs', 'Azure Dev CLI', 'azd.exe');
-                    core.info(`\nChecking azd version: ` + cp.execSync(`"${azdExePath}" version`).toString());
+                    core.info(`\nChecking azd version: ${cp.execSync(`"${azdExePath}" version`).toString()}`);
                 }
                 else {
                     core.setFailed('LocalAppData environment variable is not defined.');
                 }
             }
             else {
-                core.info(`\nChecking azd version: ` + cp.execSync('azd version').toString());
+                core.info(`\nChecking azd version: ${cp.execSync('azd version').toString()}`);
             }
         }
         catch (error) {
