@@ -44,19 +44,14 @@ Read more about Azure Developer CLI telemetry: https://github.com/Azure/azure-de
 
     // Run `azd version` so we get the version that was installed written to the log.
     let azdVersion = 'azd version'
-    if (os === 'win32') {
-      if (localAppDataPath) {
-        const azdExePath = path.join(
-          localAppDataPath,
-          'Programs',
-          'Azure Dev CLI',
-          'azd.exe'
-        )
-        azdVersion = `"${azdExePath}" version`
-      } else {
-        core.setFailed('LocalAppData environment variable is not defined.')
-        return
-      }
+    if (os === 'win32' && localAppDataPath) {
+      const azdExePath = path.join(
+        localAppDataPath,
+        'Programs',
+        'Azure Dev CLI',
+        'azd.exe'
+      )
+      azdVersion = `"${azdExePath}" version`
     }
 
     core.info(`\nChecking azd version: ${cp.execSync(azdVersion).toString()}`)
