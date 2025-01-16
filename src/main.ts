@@ -20,7 +20,7 @@ async function run(): Promise<void> {
       linuxOrMacOSInstallScript = `sudo curl -fsSL https://aka.ms/install-azd.sh | bash -s -- --version ${version}`
     }
 
-    core.info(`Installing azd version ${version} on ${os}.`)
+    core.info(`Installing azd version ${version} on ${os}.\n`)
 
     if (os === 'win32') {
       cp.execSync(windowsInstallScript)
@@ -37,11 +37,9 @@ async function run(): Promise<void> {
 
     core.notice(`The Azure Developer CLI collects usage data and sends that usage data to Microsoft in order to help us improve your experience.
 You can opt-out of telemetry by setting the AZURE_DEV_COLLECT_TELEMETRY environment variable to 'no' in the shell you use.
-
 Read more about Azure Developer CLI telemetry: https://github.com/Azure/azure-dev#data-collection`)
 
     // Run `azd version` so we get the version that was installed written to the log.
-    core.info(`Checking azd version.`)
     if (os === 'win32') {
       if (localAppDataPath) {
         const azdExePath = path.join(localAppDataPath, 'Programs', 'Azure Dev CLI', 'azd.exe');
@@ -50,7 +48,7 @@ Read more about Azure Developer CLI telemetry: https://github.com/Azure/azure-de
         core.setFailed('LocalAppData environment variable is not defined.');
       }
     } else {
-      core.info(cp.execSync('azd version').toString())
+      core.info(`\nChecking azd version:`+cp.execSync('azd version').toString())
     }
   } catch (error) {
     if (error instanceof Error) {
