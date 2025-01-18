@@ -74,17 +74,17 @@ function run() {
             const linuxOrMacOSInstallScript = `curl -fsSL https://aka.ms/install-azd.sh | sudo bash -s -- --version ${version} --verbose`;
             core.info(`Installing azd version ${version} on ${os}.\n`);
             if (os === 'win32' && localAppData) {
-                cp.execSync(windowsInstallScript);
+                core.info(cp.execSync(windowsInstallScript).toString());
                 // Add azd to PATH
                 const azdPath = path.join(localAppData, 'Programs', 'Azure Dev CLI');
                 fs.appendFileSync(githubPath, `${azdPath}${path.delimiter}`);
             }
             else {
-                cp.execSync(linuxOrMacOSInstallScript);
+                core.info(cp.execSync(linuxOrMacOSInstallScript).toString());
             }
-            core.notice(`The Azure Developer CLI collects usage data and sends that usage data to Microsoft in order to help us improve your experience.
-You can opt-out of telemetry by setting the AZURE_DEV_COLLECT_TELEMETRY environment variable to 'no' in the shell you use.
-Read more about Azure Developer CLI telemetry: https://github.com/Azure/azure-dev#data-collection`);
+            //     core.notice(`The Azure Developer CLI collects usage data and sends that usage data to Microsoft in order to help us improve your experience.
+            // You can opt-out of telemetry by setting the AZURE_DEV_COLLECT_TELEMETRY environment variable to 'no' in the shell you use.
+            // Read more about Azure Developer CLI telemetry: https://github.com/Azure/azure-dev#data-collection`)
             // Run `azd version` so we get the version that was installed written to the log.
             let azdVersion = 'azd version';
             if (os === 'win32' && localAppData) {
