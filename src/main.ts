@@ -23,7 +23,7 @@ async function run(): Promise<void> {
     const windowsInstallScript = `powershell -c "$scriptPath = \\"$($env:TEMP)\\install-azd.ps1\\"; Invoke-RestMethod 'https://aka.ms/install-azd.ps1' -OutFile $scriptPath; . $scriptPath -Version '${version}' -Verbose:$true; Remove-Item $scriptPath"`
     const linuxOrMacOSInstallScript = `curl -fsSL https://aka.ms/install-azd.sh | sudo bash -s -- --version ${version} --verbose`
 
-    core.info(`Installing azd version ${version} on ${os}.\n`)
+    core.info(`Installing azd version ${version} on ${os}.`)
 
     if (os === 'win32' && localAppData) {
       core.info(cp.execSync(windowsInstallScript).toString())
@@ -34,24 +34,6 @@ async function run(): Promise<void> {
     } else {
       core.info(cp.execSync(linuxOrMacOSInstallScript).toString())
     }
-
-    //     core.notice(`The Azure Developer CLI collects usage data and sends that usage data to Microsoft in order to help us improve your experience.
-    // You can opt-out of telemetry by setting the AZURE_DEV_COLLECT_TELEMETRY environment variable to 'no' in the shell you use.
-    // Read more about Azure Developer CLI telemetry: https://github.com/Azure/azure-dev#data-collection`)
-
-    // Run `azd version` so we get the version that was installed written to the log.
-    let azdVersion = 'azd version'
-    if (os === 'win32' && localAppData) {
-      const azdExePath = path.join(
-        localAppData,
-        'Programs',
-        'Azure Dev CLI',
-        'azd.exe'
-      )
-      azdVersion = `"${azdExePath}" version`
-    }
-
-    core.info(`\nChecking azd version: ${cp.execSync(azdVersion).toString()}`)
   } catch (error) {
     if (error instanceof Error) {
       core.setFailed(error.message)
