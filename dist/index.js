@@ -56,9 +56,11 @@ const path = __importStar(__nccwpck_require__(6928));
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
+            // get os
+            const os = process.platform;
             const localAppData = process.env.LocalAppData;
             const githubPath = process.env.GITHUB_PATH;
-            if (!localAppData) {
+            if (os === 'win32' && !localAppData) {
                 core.setFailed('LocalAppData environment variable is not defined.');
                 return;
             }
@@ -68,12 +70,10 @@ function run() {
             }
             // get version number from input
             const version = core.getInput('version');
-            // get os
-            const os = process.platform;
             const windowsInstallScript = `powershell -c "$scriptPath = \\"$($env:TEMP)\\install-azd.ps1\\"; Invoke-RestMethod 'https://aka.ms/install-azd.ps1' -OutFile $scriptPath; . $scriptPath -Version '${version}'; Remove-Item $scriptPath"`;
             const linuxOrMacOSInstallScript = `curl -fsSL https://aka.ms/install-azd.sh | sudo bash -s -- --version ${version}`;
             core.info(`Installing azd version ${version} on ${os}.\n`);
-            if (os === 'win32') {
+            if (os === 'win32' && localAppData) {
                 cp.execSync(windowsInstallScript);
                 // Add azd to PATH
                 const azdPath = path.join(localAppData, 'Programs', 'Azure Dev CLI');
@@ -87,7 +87,7 @@ You can opt-out of telemetry by setting the AZURE_DEV_COLLECT_TELEMETRY environm
 Read more about Azure Developer CLI telemetry: https://github.com/Azure/azure-dev#data-collection`);
             // Run `azd version` so we get the version that was installed written to the log.
             let azdVersion = 'azd version';
-            if (os === 'win32') {
+            if (os === 'win32' && localAppData) {
                 const azdExePath = path.join(localAppData, 'Programs', 'Azure Dev CLI', 'azd.exe');
                 azdVersion = `"${azdExePath}" version`;
             }
