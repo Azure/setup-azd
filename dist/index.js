@@ -82,12 +82,13 @@ function run() {
             else {
                 core.info(cp.execSync(linuxOrMacOSInstallScript).toString());
             }
-            let azdVersion = 'azd version';
+            // Run `azd version` to make sure if azd installation failed, it returns error on windows
+            // if installation is not successful, linux and macos fail when running install scripts
             if (os === 'win32' && localAppData) {
                 const azdExePath = path.join(localAppData, 'Programs', 'Azure Dev CLI', 'azd.exe');
-                azdVersion = `"${azdExePath}" version`;
+                const azdVersion = `"${azdExePath}" version`;
+                cp.execSync(azdVersion);
             }
-            cp.execSync(azdVersion);
         }
         catch (error) {
             if (error instanceof Error) {
