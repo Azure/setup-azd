@@ -1,5 +1,11 @@
 # Release History
 
+## 2.1.0 (2024-01-25)
+
+### Features Added
+
+- [[236]](https://github.com/Azure/setup-azd/pull/236) Use installation script to install azd.
+
 ## 2.0.0 (2024-12-18)
 
 ### Breaking Changes
