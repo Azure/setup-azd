@@ -82,6 +82,12 @@ function run() {
             else {
                 core.info(cp.execSync(linuxOrMacOSInstallScript).toString());
             }
+            let azdVersion = 'azd version';
+            if (os === 'win32' && localAppData) {
+                const azdExePath = path.join(localAppData, 'Programs', 'Azure Dev CLI', 'azd.exe');
+                azdVersion = `"${azdExePath}" version`;
+            }
+            cp.execSync(azdVersion);
         }
         catch (error) {
             if (error instanceof Error) {
