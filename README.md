@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Install azd
-        uses: Azure/setup-azd@v2
+        uses: Azure/setup-azd@ae0f8b5482eeac61e940f447327d84c73beb8b1e # v2.1.0 Please use a commit for high security
 ```
 
 ## Sample workflow install a specific `azd` version
@@ -37,7 +37,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Install azd
-        uses: Azure/setup-azd@v2
+        uses: Azure/setup-azd@ae0f8b5482eeac61e940f447327d84c73beb8b1e # v2.1.0 Please use a commit for high security
         with:
           version: '<version-number>'
 ```
