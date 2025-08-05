@@ -6,7 +6,7 @@
 
 Bump up dependency versions. 
 
-## 2.1.0 (2024-01-25)
+## 2.1.0 (2025-01-25)
 
 ### Features Added
 
