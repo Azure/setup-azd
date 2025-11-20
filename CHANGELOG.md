@@ -1,5 +1,11 @@
 # Release History
 
+## 2.2.1 (2025-11-19)
+
+### Other Changes
+
+Bump up dependency versions. 
+
 ## 2.2.0 (2025-08-05)
 
 ### Other Changes
