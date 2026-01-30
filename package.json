@@ -10,7 +10,7 @@
     "format": "prettier --write '**/*.ts'",
     "format-check": "prettier --check '**/*.ts'",
     "lint": "eslint src/**/*.ts",
-    "package": "esbuild lib/main.js --bundle --platform=node --target=node20 --outfile=dist/index.js --sourcemap",
+    "package": "esbuild lib/main.js --bundle --platform=node --target=node20 --format=esm --outfile=dist/index.js --sourcemap",
     "all": "npm run build && npm run format && npm run lint && npm run package"
   },
   "repository": {
@@ -33,7 +33,7 @@
     "@types/node": "^25.0.10",
     "@typescript-eslint/eslint-plugin": "^8.52.0",
     "@typescript-eslint/parser": "^8.52.0",
-    "esbuild": "^0.27.2",
+    "esbuild": "^0.24.2",
     "eslint": "^9.39.2",
     "eslint-plugin-github": "^6.0.0",
     "eslint-plugin-jest": "^29.12.1",
