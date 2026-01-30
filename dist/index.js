@@ -18937,13 +18937,13 @@ var _summary = new Summary();
 // node_modules/@actions/core/lib/platform.js
 import os2 from "os";
 
-// node_modules/@actions/core/node_modules/@actions/io/lib/io-util.js
+// node_modules/@actions/io/lib/io-util.js
 import * as fs from "fs";
 var { chmod, copyFile, lstat, mkdir, open, readdir, rename, rm, rmdir, stat, symlink, unlink } = fs.promises;
 var IS_WINDOWS = process.platform === "win32";
 var READONLY = fs.constants.O_RDONLY;
 
-// node_modules/@actions/core/node_modules/@actions/exec/lib/toolrunner.js
+// node_modules/@actions/exec/lib/toolrunner.js
 var IS_WINDOWS2 = process.platform === "win32";
 
 // node_modules/@actions/core/lib/platform.js
