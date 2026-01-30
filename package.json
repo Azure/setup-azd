@@ -10,7 +10,7 @@
     "format": "prettier --write '**/*.ts'",
     "format-check": "prettier --check '**/*.ts'",
     "lint": "eslint src/**/*.ts",
-    "package": "esbuild lib/main.js --bundle --platform=node --target=node20 --format=esm --outfile=dist/index.js --sourcemap",
+    "package": "node build.js",
     "all": "npm run build && npm run format && npm run lint && npm run package"
   },
   "repository": {

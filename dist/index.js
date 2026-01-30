@@ -1,3 +1,4 @@
+import { createRequire } from "module"; const require = createRequire(import.meta.url);
 var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -36,9 +37,9 @@ var require_tunnel = __commonJS({
     "use strict";
     var net = __require("net");
     var tls = __require("tls");
-    var http = __require("http");
-    var https = __require("https");
-    var events = __require("events");
+    var http2 = __require("http");
+    var https2 = __require("https");
+    var events2 = __require("events");
     var assert = __require("assert");
     var util = __require("util");
     exports.httpOverHttp = httpOverHttp2;
@@ -47,24 +48,24 @@ var require_tunnel = __commonJS({
     exports.httpsOverHttps = httpsOverHttps2;
     function httpOverHttp2(options) {
       var agent = new TunnelingAgent(options);
-      agent.request = http.request;
+      agent.request = http2.request;
       return agent;
     }
     function httpsOverHttp2(options) {
       var agent = new TunnelingAgent(options);
-      agent.request = http.request;
+      agent.request = http2.request;
       agent.createSocket = createSecureSocket;
       agent.defaultPort = 443;
       return agent;
     }
     function httpOverHttps2(options) {
       var agent = new TunnelingAgent(options);
-      agent.request = https.request;
+      agent.request = https2.request;
       return agent;
     }
     function httpsOverHttps2(options) {
       var agent = new TunnelingAgent(options);
-      agent.request = https.request;
+      agent.request = https2.request;
       agent.createSocket = createSecureSocket;
       agent.defaultPort = 443;
       return agent;
@@ -73,7 +74,7 @@ var require_tunnel = __commonJS({
       var self = this;
       self.options = options || {};
       self.proxyOptions = self.options.proxy || {};
-      self.maxSockets = self.options.maxSockets || http.Agent.defaultMaxSockets;
+      self.maxSockets = self.options.maxSockets || http2.Agent.defaultMaxSockets;
       self.requests = [];
       self.sockets = [];
       self.on("free", function onFree(socket, host, port, localAddress) {
@@ -90,7 +91,7 @@ var require_tunnel = __commonJS({
         self.removeSocket(socket);
       });
     }
-    util.inherits(TunnelingAgent, events.EventEmitter);
+    util.inherits(TunnelingAgent, events2.EventEmitter);
     TunnelingAgent.prototype.addRequest = function addRequest(req, host, port, localAddress) {
       var self = this;
       var options = mergeOptions({ request: req }, self.options, toOptions(host, port, localAddress));
@@ -1053,14 +1054,14 @@ var require_util = __commonJS({
         }
         const port = url.port != null ? url.port : url.protocol === "https:" ? 443 : 80;
         let origin = url.origin != null ? url.origin : `${url.protocol || ""}//${url.hostname || ""}:${port}`;
-        let path2 = url.path != null ? url.path : `${url.pathname || ""}${url.search || ""}`;
+        let path7 = url.path != null ? url.path : `${url.pathname || ""}${url.search || ""}`;
         if (origin[origin.length - 1] === "/") {
           origin = origin.slice(0, origin.length - 1);
         }
-        if (path2 && path2[0] !== "/") {
-          path2 = `/${path2}`;
+        if (path7 && path7[0] !== "/") {
+          path7 = `/${path7}`;
         }
-        return new URL(`${origin}${path2}`);
+        return new URL(`${origin}${path7}`);
       }
       if (!isHttpOrHttpsPrefixed(url.origin || url.protocol)) {
         throw new InvalidArgumentError("Invalid URL protocol: the URL must start with `http:` or `https:`.");
@@ -1511,39 +1512,39 @@ var require_diagnostics = __commonJS({
       });
       diagnosticsChannel.channel("undici:client:sendHeaders").subscribe((evt) => {
         const {
-          request: { method, path: path2, origin }
+          request: { method, path: path7, origin }
         } = evt;
-        debuglog("sending request to %s %s/%s", method, origin, path2);
+        debuglog("sending request to %s %s/%s", method, origin, path7);
       });
       diagnosticsChannel.channel("undici:request:headers").subscribe((evt) => {
         const {
-          request: { method, path: path2, origin },
+          request: { method, path: path7, origin },
           response: { statusCode }
         } = evt;
         debuglog(
           "received response to %s %s/%s - HTTP %d",
           method,
           origin,
-          path2,
+          path7,
           statusCode
         );
       });
       diagnosticsChannel.channel("undici:request:trailers").subscribe((evt) => {
         const {
-          request: { method, path: path2, origin }
+          request: { method, path: path7, origin }
         } = evt;
-        debuglog("trailers received from %s %s/%s", method, origin, path2);
+        debuglog("trailers received from %s %s/%s", method, origin, path7);
       });
       diagnosticsChannel.channel("undici:request:error").subscribe((evt) => {
         const {
-          request: { method, path: path2, origin },
+          request: { method, path: path7, origin },
           error: error2
         } = evt;
         debuglog(
           "request to %s %s/%s errored - %s",
           method,
           origin,
-          path2,
+          path7,
           error2.message
         );
       });
@@ -1592,9 +1593,9 @@ var require_diagnostics = __commonJS({
         });
         diagnosticsChannel.channel("undici:client:sendHeaders").subscribe((evt) => {
           const {
-            request: { method, path: path2, origin }
+            request: { method, path: path7, origin }
           } = evt;
-          debuglog("sending request to %s %s/%s", method, origin, path2);
+          debuglog("sending request to %s %s/%s", method, origin, path7);
         });
       }
       diagnosticsChannel.channel("undici:websocket:open").subscribe((evt) => {
@@ -1657,7 +1658,7 @@ var require_request = __commonJS({
     var kHandler = Symbol("handler");
     var Request = class {
       constructor(origin, {
-        path: path2,
+        path: path7,
         method,
         body,
         headers,
@@ -1672,11 +1673,11 @@ var require_request = __commonJS({
         expectContinue,
         servername
       }, handler) {
-        if (typeof path2 !== "string") {
+        if (typeof path7 !== "string") {
           throw new InvalidArgumentError("path must be a string");
-        } else if (path2[0] !== "/" && !(path2.startsWith("http://") || path2.startsWith("https://")) && method !== "CONNECT") {
+        } else if (path7[0] !== "/" && !(path7.startsWith("http://") || path7.startsWith("https://")) && method !== "CONNECT") {
           throw new InvalidArgumentError("path must be an absolute URL or start with a slash");
-        } else if (invalidPathRegex.test(path2)) {
+        } else if (invalidPathRegex.test(path7)) {
           throw new InvalidArgumentError("invalid request path");
         }
         if (typeof method !== "string") {
@@ -1739,7 +1740,7 @@ var require_request = __commonJS({
         this.completed = false;
         this.aborted = false;
         this.upgrade = upgrade || null;
-        this.path = query ? buildURL(path2, query) : path2;
+        this.path = query ? buildURL(path7, query) : path7;
         this.origin = origin;
         this.idempotent = idempotent == null ? method === "HEAD" || method === "GET" : idempotent;
         this.blocking = blocking == null ? false : blocking;
@@ -1956,8 +1957,8 @@ var require_request = __commonJS({
 var require_dispatcher = __commonJS({
   "node_modules/undici/lib/dispatcher/dispatcher.js"(exports, module) {
     "use strict";
-    var EventEmitter = __require("node:events");
-    var Dispatcher = class extends EventEmitter {
+    var EventEmitter2 = __require("node:events");
+    var Dispatcher = class extends EventEmitter2 {
       dispatch() {
         throw new Error("not implemented");
       }
@@ -2051,9 +2052,9 @@ var require_dispatcher_base = __commonJS({
       }
       close(callback) {
         if (callback === void 0) {
-          return new Promise((resolve, reject) => {
+          return new Promise((resolve2, reject) => {
             this.close((err, data) => {
-              return err ? reject(err) : resolve(data);
+              return err ? reject(err) : resolve2(data);
             });
           });
         }
@@ -2091,12 +2092,12 @@ var require_dispatcher_base = __commonJS({
           err = null;
         }
         if (callback === void 0) {
-          return new Promise((resolve, reject) => {
+          return new Promise((resolve2, reject) => {
             this.destroy(err, (err2, data) => {
               return err2 ? (
                 /* istanbul ignore next: should never error */
                 reject(err2)
-              ) : resolve(data);
+              ) : resolve2(data);
             });
           });
         }
@@ -3978,11 +3979,11 @@ var require_util2 = __commonJS({
     var { isUint8Array } = __require("node:util/types");
     var { webidl } = require_webidl();
     var supportedHashes = [];
-    var crypto;
+    var crypto2;
     try {
-      crypto = __require("node:crypto");
+      crypto2 = __require("node:crypto");
       const possibleRelevantHashes = ["sha256", "sha384", "sha512"];
-      supportedHashes = crypto.getHashes().filter((hash) => possibleRelevantHashes.includes(hash));
+      supportedHashes = crypto2.getHashes().filter((hash) => possibleRelevantHashes.includes(hash));
     } catch {
     }
     function responseURL(response) {
@@ -4255,7 +4256,7 @@ var require_util2 = __commonJS({
       }
     }
     function bytesMatch(bytes, metadataList) {
-      if (crypto === void 0) {
+      if (crypto2 === void 0) {
         return true;
       }
       const parsedMetadata = parseMetadata(metadataList);
@@ -4270,7 +4271,7 @@ var require_util2 = __commonJS({
       for (const item of metadata) {
         const algorithm = item.algo;
         const expectedValue = item.hash;
-        let actualValue = crypto.createHash(algorithm).update(bytes).digest("base64");
+        let actualValue = crypto2.createHash(algorithm).update(bytes).digest("base64");
         if (actualValue[actualValue.length - 1] === "=") {
           if (actualValue[actualValue.length - 2] === "=") {
             actualValue = actualValue.slice(0, -2);
@@ -4363,8 +4364,8 @@ var require_util2 = __commonJS({
     function createDeferredPromise() {
       let res;
       let rej;
-      const promise = new Promise((resolve, reject) => {
-        res = resolve;
+      const promise = new Promise((resolve2, reject) => {
+        res = resolve2;
         rej = reject;
       });
       return { promise, resolve: res, reject: rej };
@@ -5334,8 +5335,8 @@ var require_body = __commonJS({
     var { multipartFormDataParser } = require_formdata_parser();
     var random;
     try {
-      const crypto = __require("node:crypto");
-      random = (max) => crypto.randomInt(0, max);
+      const crypto2 = __require("node:crypto");
+      random = (max) => crypto2.randomInt(0, max);
     } catch {
       random = (max) => Math.floor(Math.random(max));
     }
@@ -6252,7 +6253,7 @@ var require_client_h1 = __commonJS({
       return method !== "GET" && method !== "HEAD" && method !== "OPTIONS" && method !== "TRACE" && method !== "CONNECT";
     }
     function writeH1(client, request) {
-      const { method, path: path2, host, upgrade, blocking, reset } = request;
+      const { method, path: path7, host, upgrade, blocking, reset } = request;
       let { body, headers, contentLength } = request;
       const expectsPayload = method === "PUT" || method === "POST" || method === "PATCH" || method === "QUERY" || method === "PROPFIND" || method === "PROPPATCH";
       if (util.isFormDataLike(body)) {
@@ -6318,7 +6319,7 @@ var require_client_h1 = __commonJS({
       if (blocking) {
         socket[kBlocking] = true;
       }
-      let header = `${method} ${path2} HTTP/1.1\r
+      let header = `${method} ${path7} HTTP/1.1\r
 `;
       if (typeof host === "string") {
         header += `host: ${host}\r
@@ -6505,12 +6506,12 @@ upgrade: ${upgrade}\r
           cb();
         }
       }
-      const waitForDrain = () => new Promise((resolve, reject) => {
+      const waitForDrain = () => new Promise((resolve2, reject) => {
         assert(callback === null);
         if (socket[kError]) {
           reject(socket[kError]);
         } else {
-          callback = resolve;
+          callback = resolve2;
         }
       });
       socket.on("close", onDrain).on("drain", onDrain);
@@ -6844,7 +6845,7 @@ var require_client_h2 = __commonJS({
     }
     function writeH2(client, request) {
       const session = client[kHTTP2Session];
-      const { method, path: path2, host, upgrade, expectContinue, signal, headers: reqHeaders } = request;
+      const { method, path: path7, host, upgrade, expectContinue, signal, headers: reqHeaders } = request;
       let { body } = request;
       if (upgrade) {
         util.errorRequest(client, request, new Error("Upgrade not supported for H2"));
@@ -6911,7 +6912,7 @@ var require_client_h2 = __commonJS({
         });
         return true;
       }
-      headers[HTTP2_HEADER_PATH] = path2;
+      headers[HTTP2_HEADER_PATH] = path7;
       headers[HTTP2_HEADER_SCHEME] = "https";
       const expectsPayload = method === "PUT" || method === "POST" || method === "PATCH";
       if (body && typeof body.read === "function") {
@@ -7147,12 +7148,12 @@ var require_client_h2 = __commonJS({
           cb();
         }
       }
-      const waitForDrain = () => new Promise((resolve, reject) => {
+      const waitForDrain = () => new Promise((resolve2, reject) => {
         assert(callback === null);
         if (socket[kError]) {
           reject(socket[kError]);
         } else {
-          callback = resolve;
+          callback = resolve2;
         }
       });
       h2stream.on("close", onDrain).on("drain", onDrain);
@@ -7264,9 +7265,9 @@ var require_redirect_handler = __commonJS({
           return this.handler.onHeaders(statusCode, headers, resume, statusText);
         }
         const { origin, pathname, search } = util.parseURL(new URL(this.location, this.opts.origin && new URL(this.opts.path, this.opts.origin)));
-        const path2 = search ? `${pathname}${search}` : pathname;
+        const path7 = search ? `${pathname}${search}` : pathname;
         this.opts.headers = cleanRequestHeaders(this.opts.headers, statusCode === 303, this.opts.origin !== origin);
-        this.opts.path = path2;
+        this.opts.path = path7;
         this.opts.origin = origin;
         this.opts.maxRedirections = 0;
         this.opts.query = null;
@@ -7370,7 +7371,7 @@ var require_client = __commonJS({
     "use strict";
     var assert = __require("node:assert");
     var net = __require("node:net");
-    var http = __require("node:http");
+    var http2 = __require("node:http");
     var util = require_util();
     var { channels } = require_diagnostics();
     var Request = require_request();
@@ -7557,7 +7558,7 @@ var require_client = __commonJS({
         this[kUrl] = util.parseOrigin(url);
         this[kConnector] = connect2;
         this[kPipelining] = pipelining != null ? pipelining : 1;
-        this[kMaxHeadersSize] = maxHeaderSize || http.maxHeaderSize;
+        this[kMaxHeadersSize] = maxHeaderSize || http2.maxHeaderSize;
         this[kKeepAliveDefaultTimeout] = keepAliveTimeout == null ? 4e3 : keepAliveTimeout;
         this[kKeepAliveMaxTimeout] = keepAliveMaxTimeout == null ? 6e5 : keepAliveMaxTimeout;
         this[kKeepAliveTimeoutThreshold] = keepAliveTimeoutThreshold == null ? 2e3 : keepAliveTimeoutThreshold;
@@ -7629,16 +7630,16 @@ var require_client = __commonJS({
         return this[kNeedDrain] < 2;
       }
       async [kClose]() {
-        return new Promise((resolve) => {
+        return new Promise((resolve2) => {
           if (this[kSize]) {
-            this[kClosedResolve] = resolve;
+            this[kClosedResolve] = resolve2;
           } else {
-            resolve(null);
+            resolve2(null);
           }
         });
       }
       async [kDestroy](err) {
-        return new Promise((resolve) => {
+        return new Promise((resolve2) => {
           const requests = this[kQueue].splice(this[kPendingIdx]);
           for (let i = 0; i < requests.length; i++) {
             const request = requests[i];
@@ -7649,7 +7650,7 @@ var require_client = __commonJS({
               this[kClosedResolve]();
               this[kClosedResolve] = null;
             }
-            resolve(null);
+            resolve2(null);
           };
           if (this[kHTTPContext]) {
             this[kHTTPContext].destroy(err, callback);
@@ -7700,7 +7701,7 @@ var require_client = __commonJS({
         });
       }
       try {
-        const socket = await new Promise((resolve, reject) => {
+        const socket = await new Promise((resolve2, reject) => {
           client[kConnector]({
             host,
             hostname,
@@ -7712,7 +7713,7 @@ var require_client = __commonJS({
             if (err) {
               reject(err);
             } else {
-              resolve(socket2);
+              resolve2(socket2);
             }
           });
         });
@@ -8048,8 +8049,8 @@ var require_pool_base = __commonJS({
         if (this[kQueue].isEmpty()) {
           await Promise.all(this[kClients].map((c) => c.close()));
         } else {
-          await new Promise((resolve) => {
-            this[kClosedResolve] = resolve;
+          await new Promise((resolve2) => {
+            this[kClosedResolve] = resolve2;
           });
         }
       }
@@ -8364,7 +8365,7 @@ var require_agent = __commonJS({
     function defaultFactory(origin, opts) {
       return opts && opts.connections === 1 ? new Client(origin, opts) : new Pool(origin, opts);
     }
-    var Agent = class extends DispatcherBase {
+    var Agent3 = class extends DispatcherBase {
       constructor({ factory = defaultFactory, maxRedirections = 0, connect, ...options } = {}) {
         super();
         if (typeof factory !== "function") {
@@ -8436,7 +8437,7 @@ var require_agent = __commonJS({
         await Promise.all(destroyPromises);
       }
     };
-    module.exports = Agent;
+    module.exports = Agent3;
   }
 });
 
@@ -8446,7 +8447,7 @@ var require_proxy_agent = __commonJS({
     "use strict";
     var { kProxy, kClose, kDestroy, kDispatch, kInterceptors } = require_symbols();
     var { URL: URL2 } = __require("node:url");
-    var Agent = require_agent();
+    var Agent3 = require_agent();
     var Pool = require_pool();
     var DispatcherBase = require_dispatcher_base();
     var { InvalidArgumentError, RequestAbortedError, SecureProxyConnectionError } = require_errors();
@@ -8500,10 +8501,10 @@ var require_proxy_agent = __commonJS({
         };
         const {
           origin,
-          path: path2 = "/",
+          path: path7 = "/",
           headers = {}
         } = opts;
-        opts.path = origin + path2;
+        opts.path = origin + path7;
         if (!("host" in headers) && !("Host" in headers)) {
           const { host } = new URL2(origin);
           headers.host = host;
@@ -8561,7 +8562,7 @@ var require_proxy_agent = __commonJS({
           return agentFactory(origin2, options);
         };
         this[kClient] = clientFactory(url, { connect });
-        this[kAgent] = new Agent({
+        this[kAgent] = new Agent3({
           ...opts,
           factory,
           connect: async (opts2, callback) => {
@@ -8670,7 +8671,7 @@ var require_env_http_proxy_agent = __commonJS({
     var DispatcherBase = require_dispatcher_base();
     var { kClose, kDestroy, kClosed, kDestroyed, kDispatch, kNoProxyAgent, kHttpProxyAgent, kHttpsProxyAgent } = require_symbols();
     var ProxyAgent2 = require_proxy_agent();
-    var Agent = require_agent();
+    var Agent3 = require_agent();
     var DEFAULT_PORTS = {
       "http:": 80,
       "https:": 443
@@ -8690,7 +8691,7 @@ var require_env_http_proxy_agent = __commonJS({
           });
         }
         const { httpProxy, httpsProxy, noProxy, ...agentOpts } = opts;
-        this[kNoProxyAgent] = new Agent(agentOpts);
+        this[kNoProxyAgent] = new Agent3(agentOpts);
         const HTTP_PROXY = httpProxy ?? process.env.http_proxy ?? process.env.HTTP_PROXY;
         if (HTTP_PROXY) {
           this[kHttpProxyAgent] = new ProxyAgent2({ ...agentOpts, uri: HTTP_PROXY });
@@ -9264,7 +9265,7 @@ var require_readable = __commonJS({
         if (this._readableState.closeEmitted) {
           return null;
         }
-        return await new Promise((resolve, reject) => {
+        return await new Promise((resolve2, reject) => {
           if (this[kContentLength] > limit) {
             this.destroy(new AbortError());
           }
@@ -9277,7 +9278,7 @@ var require_readable = __commonJS({
             if (signal?.aborted) {
               reject(signal.reason ?? new AbortError());
             } else {
-              resolve(null);
+              resolve2(null);
             }
           }).on("error", noop).on("data", function(chunk) {
             limit -= chunk.length;
@@ -9296,7 +9297,7 @@ var require_readable = __commonJS({
     }
     async function consume(stream, type) {
       assert(!stream[kConsume]);
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve2, reject) => {
         if (isUnusable(stream)) {
           const rState = stream._readableState;
           if (rState.destroyed && rState.closeEmitted === false) {
@@ -9313,7 +9314,7 @@ var require_readable = __commonJS({
             stream[kConsume] = {
               type,
               stream,
-              resolve,
+              resolve: resolve2,
               reject,
               length: 0,
               body: []
@@ -9383,18 +9384,18 @@ var require_readable = __commonJS({
       return buffer;
     }
     function consumeEnd(consume2) {
-      const { type, body, resolve, stream, length } = consume2;
+      const { type, body, resolve: resolve2, stream, length } = consume2;
       try {
         if (type === "text") {
-          resolve(chunksDecode(body, length));
+          resolve2(chunksDecode(body, length));
         } else if (type === "json") {
-          resolve(JSON.parse(chunksDecode(body, length)));
+          resolve2(JSON.parse(chunksDecode(body, length)));
         } else if (type === "arrayBuffer") {
-          resolve(chunksConcat(body, length).buffer);
+          resolve2(chunksConcat(body, length).buffer);
         } else if (type === "blob") {
-          resolve(new Blob(body, { type: stream[kContentType] }));
+          resolve2(new Blob(body, { type: stream[kContentType] }));
         } else if (type === "bytes") {
-          resolve(chunksConcat(body, length));
+          resolve2(chunksConcat(body, length));
         }
         consumeFinish(consume2);
       } catch (err) {
@@ -9651,9 +9652,9 @@ var require_api_request = __commonJS({
     };
     function request(opts, callback) {
       if (callback === void 0) {
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve2, reject) => {
           request.call(this, opts, (err, data) => {
-            return err ? reject(err) : resolve(data);
+            return err ? reject(err) : resolve2(data);
           });
         });
       }
@@ -9876,9 +9877,9 @@ var require_api_stream = __commonJS({
     };
     function stream(opts, factory, callback) {
       if (callback === void 0) {
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve2, reject) => {
           stream.call(this, opts, factory, (err, data) => {
-            return err ? reject(err) : resolve(data);
+            return err ? reject(err) : resolve2(data);
           });
         });
       }
@@ -10163,9 +10164,9 @@ var require_api_upgrade = __commonJS({
     };
     function upgrade(opts, callback) {
       if (callback === void 0) {
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve2, reject) => {
           upgrade.call(this, opts, (err, data) => {
-            return err ? reject(err) : resolve(data);
+            return err ? reject(err) : resolve2(data);
           });
         });
       }
@@ -10257,9 +10258,9 @@ var require_api_connect = __commonJS({
     };
     function connect(opts, callback) {
       if (callback === void 0) {
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve2, reject) => {
           connect.call(this, opts, (err, data) => {
-            return err ? reject(err) : resolve(data);
+            return err ? reject(err) : resolve2(data);
           });
         });
       }
@@ -10424,20 +10425,20 @@ var require_mock_utils = __commonJS({
       }
       return true;
     }
-    function safeUrl(path2) {
-      if (typeof path2 !== "string") {
-        return path2;
+    function safeUrl(path7) {
+      if (typeof path7 !== "string") {
+        return path7;
       }
-      const pathSegments = path2.split("?");
+      const pathSegments = path7.split("?");
       if (pathSegments.length !== 2) {
-        return path2;
+        return path7;
       }
       const qp = new URLSearchParams(pathSegments.pop());
       qp.sort();
       return [...pathSegments, qp.toString()].join("?");
     }
-    function matchKey(mockDispatch2, { path: path2, method, body, headers }) {
-      const pathMatch = matchValue(mockDispatch2.path, path2);
+    function matchKey(mockDispatch2, { path: path7, method, body, headers }) {
+      const pathMatch = matchValue(mockDispatch2.path, path7);
       const methodMatch = matchValue(mockDispatch2.method, method);
       const bodyMatch = typeof mockDispatch2.body !== "undefined" ? matchValue(mockDispatch2.body, body) : true;
       const headersMatch = matchHeaders(mockDispatch2, headers);
@@ -10459,7 +10460,7 @@ var require_mock_utils = __commonJS({
     function getMockDispatch(mockDispatches, key) {
       const basePath = key.query ? buildURL(key.path, key.query) : key.path;
       const resolvedPath = typeof basePath === "string" ? safeUrl(basePath) : basePath;
-      let matchedMockDispatches = mockDispatches.filter(({ consumed }) => !consumed).filter(({ path: path2 }) => matchValue(safeUrl(path2), resolvedPath));
+      let matchedMockDispatches = mockDispatches.filter(({ consumed }) => !consumed).filter(({ path: path7 }) => matchValue(safeUrl(path7), resolvedPath));
       if (matchedMockDispatches.length === 0) {
         throw new MockNotMatchedError(`Mock dispatch not matched for path '${resolvedPath}'`);
       }
@@ -10497,9 +10498,9 @@ var require_mock_utils = __commonJS({
       }
     }
     function buildKey(opts) {
-      const { path: path2, method, body, headers, query } = opts;
+      const { path: path7, method, body, headers, query } = opts;
       return {
-        path: path2,
+        path: path7,
         method,
         body,
         headers,
@@ -10962,10 +10963,10 @@ var require_pending_interceptors_formatter = __commonJS({
       }
       format(pendingInterceptors) {
         const withPrettyHeaders = pendingInterceptors.map(
-          ({ method, path: path2, data: { statusCode }, persist, times, timesInvoked, origin }) => ({
+          ({ method, path: path7, data: { statusCode }, persist, times, timesInvoked, origin }) => ({
             Method: method,
             Origin: origin,
-            Path: path2,
+            Path: path7,
             "Status code": statusCode,
             Persistent: persist ? PERSISTENT : NOT_PERSISTENT,
             Invocations: timesInvoked,
@@ -10984,7 +10985,7 @@ var require_mock_agent = __commonJS({
   "node_modules/undici/lib/mock/mock-agent.js"(exports, module) {
     "use strict";
     var { kClients } = require_symbols();
-    var Agent = require_agent();
+    var Agent3 = require_agent();
     var {
       kAgent,
       kMockAgentSet,
@@ -11011,7 +11012,7 @@ var require_mock_agent = __commonJS({
         if (opts?.agent && typeof opts.agent.dispatch !== "function") {
           throw new InvalidArgumentError("Argument opts.agent must implement Agent");
         }
-        const agent = opts?.agent ? opts.agent : new Agent(opts);
+        const agent = opts?.agent ? opts.agent : new Agent3(opts);
         this[kAgent] = agent;
         this[kClients] = agent[kClients];
         this[kOptions] = buildMockOptions(opts);
@@ -11115,9 +11116,9 @@ var require_global2 = __commonJS({
     "use strict";
     var globalDispatcher = Symbol.for("undici.globalDispatcher.1");
     var { InvalidArgumentError } = require_errors();
-    var Agent = require_agent();
+    var Agent3 = require_agent();
     if (getGlobalDispatcher() === void 0) {
-      setGlobalDispatcher(new Agent());
+      setGlobalDispatcher(new Agent3());
     }
     function setGlobalDispatcher(agent) {
       if (!agent || typeof agent.dispatch !== "function") {
@@ -11728,10 +11729,10 @@ var require_headers = __commonJS({
         const lowercaseName = isLowerCase ? name : name.toLowerCase();
         const exists2 = this[kHeadersMap].get(lowercaseName);
         if (exists2) {
-          const delimiter2 = lowercaseName === "cookie" ? "; " : ", ";
+          const delimiter4 = lowercaseName === "cookie" ? "; " : ", ";
           this[kHeadersMap].set(lowercaseName, {
             name: exists2.name,
-            value: `${exists2.value}${delimiter2}${value}`
+            value: `${exists2.value}${delimiter4}${value}`
           });
         } else {
           this[kHeadersMap].set(lowercaseName, { name, value });
@@ -14121,7 +14122,7 @@ var require_fetch = __commonJS({
       function dispatch({ body }) {
         const url = requestCurrentURL(request);
         const agent = fetchParams.controller.dispatcher;
-        return new Promise((resolve, reject) => agent.dispatch(
+        return new Promise((resolve2, reject) => agent.dispatch(
           {
             path: url.pathname + url.search,
             origin: url.origin,
@@ -14197,7 +14198,7 @@ var require_fetch = __commonJS({
                 }
               }
               const onError = this.onError.bind(this);
-              resolve({
+              resolve2({
                 status,
                 statusText,
                 headersList,
@@ -14243,7 +14244,7 @@ var require_fetch = __commonJS({
               for (let i = 0; i < rawHeaders.length; i += 2) {
                 headersList.append(bufferToLowerCasedHeaderName(rawHeaders[i]), rawHeaders[i + 1].toString("latin1"), true);
               }
-              resolve({
+              resolve2({
                 status,
                 statusText: STATUS_CODES[status],
                 headersList,
@@ -14648,7 +14649,7 @@ var require_util4 = __commonJS({
     var { getEncoding } = require_encoding();
     var { serializeAMimeType, parseMIMEType } = require_data_url();
     var { types } = __require("node:util");
-    var { StringDecoder } = __require("string_decoder");
+    var { StringDecoder: StringDecoder2 } = __require("string_decoder");
     var { btoa } = __require("node:buffer");
     var staticPropertyDescriptors = {
       enumerable: true,
@@ -14739,7 +14740,7 @@ var require_util4 = __commonJS({
             dataURL += serializeAMimeType(parsed);
           }
           dataURL += ";base64,";
-          const decoder = new StringDecoder("latin1");
+          const decoder = new StringDecoder2("latin1");
           for (const chunk of bytes) {
             dataURL += btoa(decoder.write(chunk));
           }
@@ -14768,7 +14769,7 @@ var require_util4 = __commonJS({
         }
         case "BinaryString": {
           let binaryString = "";
-          const decoder = new StringDecoder("latin1");
+          const decoder = new StringDecoder2("latin1");
           for (const chunk of bytes) {
             binaryString += decoder.write(chunk);
           }
@@ -15846,9 +15847,9 @@ var require_util6 = __commonJS({
         }
       }
     }
-    function validateCookiePath(path2) {
-      for (let i = 0; i < path2.length; ++i) {
-        const code = path2.charCodeAt(i);
+    function validateCookiePath(path7) {
+      for (let i = 0; i < path7.length; ++i) {
+        const code = path7.charCodeAt(i);
         if (code < 32 || // exclude CTLs (0-31)
         code === 127 || // DEL
         code === 59) {
@@ -16739,13 +16740,13 @@ var require_frame = __commonJS({
     "use strict";
     var { maxUnsigned16Bit } = require_constants5();
     var BUFFER_SIZE = 16386;
-    var crypto;
+    var crypto2;
     var buffer = null;
     var bufIdx = BUFFER_SIZE;
     try {
-      crypto = __require("node:crypto");
+      crypto2 = __require("node:crypto");
     } catch {
-      crypto = {
+      crypto2 = {
         // not full compatibility, but minimum.
         randomFillSync: function randomFillSync(buffer2, _offset, _size) {
           for (let i = 0; i < buffer2.length; ++i) {
@@ -16758,7 +16759,7 @@ var require_frame = __commonJS({
     function generateMask() {
       if (bufIdx === BUFFER_SIZE) {
         bufIdx = 0;
-        crypto.randomFillSync(buffer ??= Buffer.allocUnsafe(BUFFER_SIZE), 0, BUFFER_SIZE);
+        crypto2.randomFillSync(buffer ??= Buffer.allocUnsafe(BUFFER_SIZE), 0, BUFFER_SIZE);
       }
       return [buffer[bufIdx++], buffer[bufIdx++], buffer[bufIdx++], buffer[bufIdx++]];
     }
@@ -16830,9 +16831,9 @@ var require_connection = __commonJS({
     var { Headers: Headers2, getHeadersList } = require_headers();
     var { getDecodeSplit } = require_util2();
     var { WebsocketFrameSend } = require_frame();
-    var crypto;
+    var crypto2;
     try {
-      crypto = __require("node:crypto");
+      crypto2 = __require("node:crypto");
     } catch {
     }
     function establishWebSocketConnection(url, protocols, client, ws, onEstablish, options) {
@@ -16852,7 +16853,7 @@ var require_connection = __commonJS({
         const headersList = getHeadersList(new Headers2(options.headers));
         request.headersList = headersList;
       }
-      const keyValue = crypto.randomBytes(16).toString("base64");
+      const keyValue = crypto2.randomBytes(16).toString("base64");
       request.headersList.append("sec-websocket-key", keyValue);
       request.headersList.append("sec-websocket-version", "13");
       for (const protocol of protocols) {
@@ -16882,7 +16883,7 @@ var require_connection = __commonJS({
             return;
           }
           const secWSAccept = response.headersList.get("Sec-WebSocket-Accept");
-          const digest = crypto.createHash("sha1").update(keyValue + uid).digest("base64");
+          const digest = crypto2.createHash("sha1").update(keyValue + uid).digest("base64");
           if (secWSAccept !== digest) {
             failWebsocketConnection(ws, "Incorrect hash received in Sec-WebSocket-Accept header.");
             return;
@@ -17836,8 +17837,8 @@ var require_util8 = __commonJS({
       return true;
     }
     function delay(ms) {
-      return new Promise((resolve) => {
-        setTimeout(resolve, ms).unref();
+      return new Promise((resolve2) => {
+        setTimeout(resolve2, ms).unref();
       });
     }
     module.exports = {
@@ -18383,7 +18384,7 @@ var require_undici = __commonJS({
     var Dispatcher = require_dispatcher();
     var Pool = require_pool();
     var BalancedPool = require_balanced_pool();
-    var Agent = require_agent();
+    var Agent3 = require_agent();
     var ProxyAgent2 = require_proxy_agent();
     var EnvHttpProxyAgent = require_env_http_proxy_agent();
     var RetryAgent = require_retry_agent();
@@ -18406,7 +18407,7 @@ var require_undici = __commonJS({
     module.exports.Client = Client;
     module.exports.Pool = Pool;
     module.exports.BalancedPool = BalancedPool;
-    module.exports.Agent = Agent;
+    module.exports.Agent = Agent3;
     module.exports.ProxyAgent = ProxyAgent2;
     module.exports.EnvHttpProxyAgent = EnvHttpProxyAgent;
     module.exports.RetryAgent = RetryAgent;
@@ -18442,11 +18443,11 @@ var require_undici = __commonJS({
           if (typeof opts.path !== "string") {
             throw new InvalidArgumentError("invalid opts.path");
           }
-          let path2 = opts.path;
+          let path7 = opts.path;
           if (!opts.path.startsWith("/")) {
-            path2 = `/${path2}`;
+            path7 = `/${path7}`;
           }
-          url = new URL(util.parseOrigin(url).origin + path2);
+          url = new URL(util.parseOrigin(url).origin + path7);
         } else {
           if (!opts) {
             opts = typeof url === "object" ? url : {};
@@ -18518,7 +18519,7 @@ var require_undici = __commonJS({
 });
 
 // lib/main.js
-import * as fs2 from "fs";
+import * as fs3 from "fs";
 import * as cp from "child_process";
 
 // node_modules/@actions/core/lib/command.js
@@ -18592,10 +18593,18 @@ function escapeProperty(s) {
   return toCommandValue(s).replace(/%/g, "%25").replace(/\r/g, "%0D").replace(/\n/g, "%0A").replace(/:/g, "%3A").replace(/,/g, "%2C");
 }
 
+// node_modules/@actions/core/lib/file-command.js
+import * as crypto from "crypto";
+import * as fs from "fs";
+import * as os2 from "os";
+
 // node_modules/@actions/core/lib/core.js
-import * as os3 from "os";
+import * as os5 from "os";
+import * as path5 from "path";
 
 // node_modules/@actions/core/node_modules/@actions/http-client/lib/index.js
+import * as http from "http";
+import * as https from "https";
 var tunnel = __toESM(require_tunnel2(), 1);
 var import_undici = __toESM(require_undici(), 1);
 var HttpCodes;
@@ -18651,15 +18660,15 @@ var HttpResponseRetryCodes = [
 ];
 
 // node_modules/@actions/core/lib/summary.js
-import { EOL as EOL2 } from "os";
+import { EOL as EOL3 } from "os";
 import { constants, promises } from "fs";
 var __awaiter = function(thisArg, _arguments, P, generator) {
   function adopt(value) {
-    return value instanceof P ? value : new P(function(resolve) {
-      resolve(value);
+    return value instanceof P ? value : new P(function(resolve2) {
+      resolve2(value);
     });
   }
-  return new (P || (P = Promise))(function(resolve, reject) {
+  return new (P || (P = Promise))(function(resolve2, reject) {
     function fulfilled(value) {
       try {
         step(generator.next(value));
@@ -18675,7 +18684,7 @@ var __awaiter = function(thisArg, _arguments, P, generator) {
       }
     }
     function step(result) {
-      result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected);
+      result.done ? resolve2(result.value) : adopt(result.value).then(fulfilled, rejected);
     }
     step((generator = generator.apply(thisArg, _arguments || [])).next());
   });
@@ -18795,7 +18804,7 @@ var Summary = class {
    * @returns {Summary} summary instance
    */
   addEOL() {
-    return this.addRaw(EOL2);
+    return this.addRaw(EOL3);
   }
   /**
    * Adds an HTML codeblock to the summary buffer
@@ -18934,21 +18943,39 @@ var Summary = class {
 };
 var _summary = new Summary();
 
-// node_modules/@actions/core/lib/platform.js
-import os2 from "os";
+// node_modules/@actions/core/lib/path-utils.js
+import * as path from "path";
 
-// node_modules/@actions/io/lib/io-util.js
-import * as fs from "fs";
-var { chmod, copyFile, lstat, mkdir, open, readdir, rename, rm, rmdir, stat, symlink, unlink } = fs.promises;
-var IS_WINDOWS = process.platform === "win32";
-var READONLY = fs.constants.O_RDONLY;
+// node_modules/@actions/core/lib/platform.js
+import os4 from "os";
+
+// node_modules/@actions/exec/lib/exec.js
+import { StringDecoder } from "string_decoder";
 
 // node_modules/@actions/exec/lib/toolrunner.js
+import * as os3 from "os";
+import * as events from "events";
+import * as child from "child_process";
+import * as path4 from "path";
+
+// node_modules/@actions/io/lib/io.js
+import { ok } from "assert";
+import * as path3 from "path";
+
+// node_modules/@actions/io/lib/io-util.js
+import * as fs2 from "fs";
+import * as path2 from "path";
+var { chmod, copyFile, lstat, mkdir, open, readdir, rename, rm, rmdir, stat, symlink, unlink } = fs2.promises;
+var IS_WINDOWS = process.platform === "win32";
+var READONLY = fs2.constants.O_RDONLY;
+
+// node_modules/@actions/exec/lib/toolrunner.js
+import { setTimeout as setTimeout2 } from "timers";
 var IS_WINDOWS2 = process.platform === "win32";
 
 // node_modules/@actions/core/lib/platform.js
-var platform = os2.platform();
-var arch = os2.arch();
+var platform = os4.platform();
+var arch = os4.arch();
 
 // node_modules/@actions/core/lib/core.js
 var ExitCode;
@@ -18974,17 +19001,17 @@ function error(message, properties = {}) {
   issueCommand("error", toCommandProperties(properties), message instanceof Error ? message.toString() : message);
 }
 function info(message) {
-  process.stdout.write(message + os3.EOL);
+  process.stdout.write(message + os5.EOL);
 }
 
 // lib/main.js
-import * as path from "path";
+import * as path6 from "path";
 async function run() {
   try {
-    const os4 = process.platform;
+    const os6 = process.platform;
     const localAppData = process.env.LocalAppData;
     const githubPath = process.env.GITHUB_PATH;
-    if (os4 === "win32" && !localAppData) {
+    if (os6 === "win32" && !localAppData) {
       setFailed("LocalAppData environment variable is not defined.");
       return;
     }
@@ -18995,16 +19022,16 @@ async function run() {
     const version = getInput("version");
     const windowsInstallScript = `powershell -c "$scriptPath = \\"$($env:TEMP)\\install-azd.ps1\\"; Invoke-RestMethod 'https://aka.ms/install-azd.ps1' -OutFile $scriptPath; . $scriptPath -Version '${version}' -Verbose:$true; Remove-Item $scriptPath"`;
     const linuxOrMacOSInstallScript = `curl -fsSL https://aka.ms/install-azd.sh | sudo bash -s -- --version ${version} --verbose`;
-    info(`Installing azd version ${version} on ${os4}.`);
-    if (os4 === "win32" && localAppData) {
+    info(`Installing azd version ${version} on ${os6}.`);
+    if (os6 === "win32" && localAppData) {
       info(cp.execSync(windowsInstallScript).toString());
-      const azdPath = path.join(localAppData, "Programs", "Azure Dev CLI");
-      fs2.appendFileSync(githubPath, `${azdPath}${path.delimiter}`);
+      const azdPath = path6.join(localAppData, "Programs", "Azure Dev CLI");
+      fs3.appendFileSync(githubPath, `${azdPath}${path6.delimiter}`);
     } else {
       info(cp.execSync(linuxOrMacOSInstallScript).toString());
     }
-    if (os4 === "win32" && localAppData) {
-      const azdExePath = path.join(localAppData, "Programs", "Azure Dev CLI", "azd.exe");
+    if (os6 === "win32" && localAppData) {
+      const azdExePath = path6.join(localAppData, "Programs", "Azure Dev CLI", "azd.exe");
       const azdVersion = `"${azdExePath}" version`;
       cp.execSync(azdVersion);
     }
