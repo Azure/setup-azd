@@ -18673,7 +18673,7 @@ import * as os2 from "os";
 import * as os5 from "os";
 import * as path5 from "path";
 
-// node_modules/@actions/core/node_modules/@actions/http-client/lib/index.js
+// node_modules/@actions/http-client/lib/index.js
 import * as http from "http";
 import * as https from "https";
 var tunnel = __toESM(require_tunnel2(), 1);
