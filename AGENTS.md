@@ -91,12 +91,18 @@ git checkout main
 git pull upstream main    # or origin main in an Azure org clone
 
 # Full SemVer tag
-git tag -a v2.3.0 -m "Release 2.3.0"
+# Tags MUST be signed (-s, never -a) so GitHub shows the "Verified" badge.
+git tag -s v2.3.0 -m "Release 2.3.0"
 git push upstream v2.3.0
 
 # Move the floating major tag so `uses: Azure/setup-azd@v2` resolves to this release
-git tag -fa v2 -m "Update v2 to 2.3.0"
+git tag -fs v2 -m "Update v2 to 2.3.0"
 git push upstream v2 --force
+
+# Confirm both tags show verified: true before drafting the release
+gh api /repos/Azure/setup-azd/git/refs/tags/v2.3.0 |
+  ConvertFrom-Json | % { gh api "/repos/Azure/setup-azd/git/tags/$($_.object.sha)" } |
+  ConvertFrom-Json | Select-Object -ExpandProperty verification
 ```
 
 For a **major** bump, create a new floating tag (`v3`) instead of moving `v2`, and open a follow-up PR updating the README samples to `@v3`. Always confirm with the user before any `--force` push.
@@ -106,7 +112,7 @@ For a **major** bump, create a new floating tag (`v3`) instead of moving `v2`, a
 1. Go to https://github.com/Azure/setup-azd/releases → **Draft a new release**.
 2. **Tag**: select the `vX.Y.Z` tag from Step 4 (or type a new tag name to have GitHub create it on publish).
 3. **Target**: `main`.
-4. **Title**: `vX.Y.Z`.
+4. **Title**: `setup-azd_vX.Y.Z` (e.g. `setup-azd_v2.3.0`). Prefixing the repo name disambiguates from unrelated `vX.Y.Z` tags in cross-repo release feeds and Marketplace listings.
 5. **Description**: paste the CHANGELOG entry. "Generate release notes" can seed it; trim to match.
 6. Check **"Publish this Action to the GitHub Marketplace"** and select the same primary/secondary categories as the previous release.
 7. Leave **"Set as the latest release"** checked unless back-porting.

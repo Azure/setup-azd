@@ -100,25 +100,33 @@ Open a PR that updates **all four** files consistently:
 Once the version-bump PR is merged into `main`:
 
 1. Sync local: `git checkout main && git pull origin main`.
-2. Create the tag. For `Azure/setup-azd`, maintain **both** a full SemVer tag and a floating major tag — this is required because the README and most consumers reference the major tag (`@v2`), so it must be moved forward on every minor/patch release:
+2. **Tags must be signed.** Release tags must show the GitHub "Verified" badge — unsigned tags erode consumer trust for a Marketplace action. 
+3. Create the tag. For `Azure/setup-azd`, maintain **both** a full SemVer tag and a floating major tag — this is required because the README and most consumers reference the major tag (`@v2`), so it must be moved forward on every minor/patch release. Use `-s` (sign) — **never** `-a` — so the tag carries a signature:
    ```pwsh
-   git tag -a v2.3.0 -m "Release 2.3.0"
+   git tag -s v2.3.0 -m "Release 2.3.0"
    git push origin v2.3.0
 
    # Move the floating major tag so `uses: Org/action@v2` points at the new release
-   git tag -fa v2 -m "Update v2 to 2.3.0"
+   git tag -fs v2 -m "Update v2 to 2.3.0"
    git push origin v2 --force
    ```
    On a **major** bump, create a new floating tag (`v3`) instead of moving `v2`, and open a follow-up PR to update the README samples to `@v3`. Always `ask_user` before any `--force` push.
 
-   You may also create the SemVer tag directly in the GitHub Releases UI in Step 5 instead of using `git tag`, but the floating major tag must still be moved manually via `git tag -f` + `git push --force`.
+   You may also create the SemVer tag directly in the GitHub Releases UI in Step 5 instead of using `git tag`, but the floating major tag must still be moved manually via `git tag -fs` + `git push --force`.
+4. Verify both tags show `verified: true` on GitHub before drafting the release:
+   ```pwsh
+   gh api /repos/<owner>/<repo>/git/refs/tags/v2.3.0 |
+     ConvertFrom-Json | % { gh api "/repos/<owner>/<repo>/git/tags/$($_.object.sha)" } |
+     ConvertFrom-Json | Select-Object -ExpandProperty verification
+   ```
+   If `verified` is `false`, delete the tag (`git push origin :refs/tags/<tag>`), fix signing config, and recreate.
 
 ### Step 5 — Draft the GitHub Release
 
 1. Go to `https://github.com/Org/repo/releases` → **Draft a new release**.
 2. **Tag**: select the tag created in Step 4 (or type a new tag name to create it on publish).
 3. **Target**: `main`.
-4. **Title**: the version, e.g., `v2.3.0`.
+4. **Title**: `<repo-name>_vX.Y.Z` (e.g. `setup-azd_v2.3.0`). Prefixing the repo name disambiguates from unrelated `vX.Y.Z` tags in cross-repo release feeds and Marketplace listings.
 5. **Description**: paste the CHANGELOG entry for this version. Use *"Generate release notes"* as a starting point, then trim to match the CHANGELOG.
 6. Check **"Publish this Action to the GitHub Marketplace"** and select the primary + secondary categories (match the existing release's categories).
 7. Leave **"Set as the latest release"** checked unless this is a back-port.
