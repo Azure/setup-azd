@@ -56,7 +56,7 @@ inputs:
     description: 'The version of azd to install (default: latest)'
     default: 'latest'
 runs:
-  using: 'node20'
+  using: 'node24'
   main: 'dist/index.js'
 ```
 

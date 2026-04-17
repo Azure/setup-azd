@@ -1,5 +1,11 @@
 # Release History
 
+## 2.3.0 (2026-04-17)
+
+### Breaking Changes
+
+- [[467]](https://github.com/Azure/setup-azd/pull/467) Upgrade action runtime from Node.js 20 to Node.js 24 to address the Node.js 20 deprecation on GitHub Actions runners. Bump up GitHub Actions versions used in workflows (`actions/checkout@v6`, `actions/upload-artifact@v7`).
+
 ## 2.2.1 (2025-11-19)
 
 ### Other Changes
