@@ -43,6 +43,12 @@
     "prettier": "^3.8.4",
     "ts-jest": "^29.4.11",
     "typescript": "^6.0.3",
-    "typescript-eslint": "^8.61.1"
+    "typescript-eslint": "^8.62.0"
+  },
+  "overrides": {
+    "@babel/core": "^7.29.2",
+    "@istanbuljs/load-nyc-config": {
+      "js-yaml": "^4.2.0"
+    }
   }
 }
