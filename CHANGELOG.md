@@ -1,5 +1,20 @@
 # Release History
 
+## 2.4.0 (2026-08-05)
+
+### Features Added
+
+- [[566]](https://github.com/Azure/setup-azd/pull/566) Validate the `version` input before installing. Accepted values are `latest`, `stable`, `daily`, or a semantic version such as `1.2.3`, `1.2.3-beta.1`, or `1.2.3+build.5`; anything else fails the action with a clear message instead of being passed to the installer.
+
+### Bugs Fixed
+
+- [[566]](https://github.com/Azure/setup-azd/pull/566) Surface installer failures reliably by preserving download, installation, and Windows version-check exit codes. Installer scripts are downloaded to an isolated temporary directory that is cleaned up afterwards, and cleanup failures are reported as warnings rather than failing the run.
+
+### Other Changes
+
+- [[566]](https://github.com/Azure/setup-azd/pull/566) Harden installation by invoking the installer scripts with explicit process arguments instead of interpolating the `version` input into a shell command line. Relates to Azure/azure-dev#9402.
+- Bump GitHub Actions versions used in workflows (`actions/checkout@v7`, `actions/setup-node@v7`) and dependency versions.
+
 ## 2.3.0 (2026-04-17)
 
 ### Breaking Changes
