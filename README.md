@@ -4,7 +4,7 @@ This GitHub Action allows you to provision resources and deploy your application
 
 The action installs the Azure Developer CLI on a user-defined Azure Developer CLI version. If the user does not specify a version, latest CLI version is used. Read more about various Azure Developer CLI versions [here](https://github.com/Azure/azure-dev/releases).
 
-- `version` – **Optional** Example: 1.0.1, Default: set to latest azd cli version.
+- `version` – **Optional** Accepts `latest`, `stable`, `daily`, or a semantic version such as `1.2.3`, `1.2.3-beta.1`, or `1.2.3+build.5`. Defaults to `latest`.
 
 The definition of this GitHub Action is in [action.yml](https://github.com/azure/setup-azd/blob/main/action.yml).
 
@@ -53,7 +53,7 @@ author: 'Azure Developer CLI Team'
 inputs:
   version:
     required: false
-    description: 'The version of azd to install (default: latest)'
+    description: 'The azd version to install: latest, stable, daily, or a semantic version such as 1.2.3, 1.2.3-beta.1, or 1.2.3+build.5 (default: latest)'
     default: 'latest'
 runs:
   using: 'node24'

@@ -10,8 +10,9 @@
     "format": "prettier --write '**/*.ts'",
     "format-check": "prettier --check '**/*.ts'",
     "lint": "eslint src/**/*.ts",
+    "test": "npm run build && node --experimental-vm-modules node_modules/jest/bin/jest.js --runInBand",
     "package": "node build.js",
-    "all": "npm run build && npm run format && npm run lint && npm run package"
+    "all": "npm run build && npm run format && npm run lint && npm test && npm run package"
   },
   "repository": {
     "type": "git",
