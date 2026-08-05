@@ -1,5 +1,11 @@
 # Release History
 
+## 2.4.0 (2026-08-05)
+
+### Features Added
+
+- [[566]](https://github.com/Azure/setup-azd/pull/566) Harden `azd` version installation. The `version` input is validated before use — accepted values are `latest`, `stable`, `daily`, or a semantic version such as `1.2.3`, `1.2.3-beta.1`, or `1.2.3+build.5` — and installer scripts are downloaded to an isolated temporary directory and invoked with explicit process arguments instead of a shell command line.
+
 ## 2.3.0 (2026-04-17)
 
 ### Breaking Changes
