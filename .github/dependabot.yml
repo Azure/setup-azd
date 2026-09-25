@@ -7,9 +7,9 @@ updates:
     cooldown:
       default-days: 7
     groups:
-      codeql-action:
+      github-actions:
         patterns:
-          - "github/codeql-action/*"
+          - "*"
 
   - package-ecosystem: npm
     directory: /
