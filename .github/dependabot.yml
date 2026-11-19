@@ -1,26 +1,23 @@
 version: 2
+
+multi-ecosystem-groups:
+  all-dependencies:
+    schedule:
+      interval: daily
+
 updates:
   - package-ecosystem: github-actions
     directory: /
-    schedule:
-      interval: daily
+    patterns:
+      - '*'
     cooldown:
       default-days: 7
-    groups:
-      github-actions:
-        patterns:
-          - "*"
+    multi-ecosystem-group: all-dependencies
 
   - package-ecosystem: npm
     directory: /
-    schedule:
-      interval: daily
+    patterns:
+      - '*'
     cooldown:
       default-days: 7
-    groups:
-      minor-and-patch:
-        patterns:
-          - "*"
-        update-types:
-          - minor
-          - patch
+    multi-ecosystem-group: all-dependencies
