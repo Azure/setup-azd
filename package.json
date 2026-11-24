@@ -35,8 +35,8 @@
     "eslint": "^10.15.0",
     "jest": "^30.5.2",
     "prettier": "^3.10.1",
-    "typescript": "^6.0.3",
-    "typescript-eslint": "^8.72.2"
+    "typescript": "^7.0.2",
+    "typescript-eslint": "^8.73.0"
   },
   "overrides": {
     "@babel/core": "^7.29.2",
