@@ -1,5 +1,13 @@
 # Release History
 
+## 2.4.1 (2026-11-23)
+
+### Other Changes
+
+- [[590]](https://github.com/Azure/setup-azd/pull/590) Pin GitHub Actions to full-length commit SHAs and add a Dependabot cooldown for improved supply-chain security.
+- [[646]](https://github.com/Azure/setup-azd/pull/646) Remove unused packages, update patched `glob` and `minimatch` overrides, and consolidate npm and GitHub Actions dependency updates.
+- [[651]](https://github.com/Azure/setup-azd/pull/651) Apply the latest grouped dependency updates.
+
 ## 2.4.0 (2026-08-05)
 
 ### Features Added
