@@ -6,7 +6,7 @@
   "description": "TypeScript template action",
   "main": "lib/main.js",
   "scripts": {
-    "build": "tsc",
+    "build": "node node_modules/typescript-7/bin/tsc",
     "format": "prettier --write '**/*.ts'",
     "format-check": "prettier --check '**/*.ts'",
     "lint": "eslint src/**/*.ts",
@@ -36,6 +36,7 @@
     "jest": "^30.5.2",
     "prettier": "^3.10.1",
     "typescript": "^6.0.3",
+    "typescript-7": "npm:typescript@^7.0.2",
     "typescript-eslint": "^8.73.0"
   },
   "overrides": {
